@@ -22,12 +22,14 @@ import java.util.List;
 import fr.l3ak1.bestprice.R;
 import fr.l3ak1.bestprice.model.DatabaseSQLite;
 import fr.l3ak1.bestprice.model.Produit;
+import fr.l3ak1.bestprice.model.ProduitAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
 	private Button buttonScan;
 	private ListView listView;
-	private ArrayAdapter produitsAdapter;
+	private List<Produit> produits;
+	private ProduitAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,32 +45,6 @@ public class MainActivity extends AppCompatActivity {
 				startActivity(scanIntent);
 			}
 		});
-//		buttonAdd.setOnClickListener(new View.OnClickListener()
-//		{
-//			@Override
-//			public void onClick(View view)
-//			{
-//				Produit produit = new Produit(editCodebarres.getText().toString(),
-//						editMarque.getText().toString(),
-//						editNom.getText().toString(), editContenu.getText().toString(),
-//						editImage.getText().toString());
-//				DatabaseSQLite dbSql = new DatabaseSQLite(MainActivity.this);
-//				boolean success = dbSql.addProduit(produit);
-//				if (success)
-//					showProduits(dbSql);
-//			}
-//		});
-
-//		buttonShow.setOnClickListener(new View.OnClickListener()
-//		{
-//			@Override
-//			public void onClick(View view)
-//			{
-//				DatabaseSQLite dbSql = new DatabaseSQLite(MainActivity.this);
-//				showProduits(dbSql);
-//			}
-//		});
-
 	}
 
 	protected void onResume()
@@ -80,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
 	private void showProduits(DatabaseSQLite db)
 	{
-		produitsAdapter = new ArrayAdapter<Produit>(MainActivity.this,
-				android.R.layout.simple_list_item_1, db.getAllProduits());
-		listView.setAdapter(produitsAdapter);
+		produits = db.getAllProduits();
+		adapter = new ProduitAdapter(this, produits);
+		listView.setAdapter(adapter);
 	}
 
 }

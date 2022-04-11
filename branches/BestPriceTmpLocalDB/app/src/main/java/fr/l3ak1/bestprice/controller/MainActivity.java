@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
 				startActivity(scanIntent);
 			}
 		});
-		DatabaseSQLite db = new DatabaseSQLite(MainActivity.this);
-		showProduits(db);
 //		buttonAdd.setOnClickListener(new View.OnClickListener()
 //		{
 //			@Override
@@ -71,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
 //			}
 //		});
 
+	}
+
+	protected void onResume()
+	{
+		super.onResume();
+		DatabaseSQLite db = new DatabaseSQLite(MainActivity.this);
+		showProduits(db);
 	}
 
 	private void showProduits(DatabaseSQLite db)

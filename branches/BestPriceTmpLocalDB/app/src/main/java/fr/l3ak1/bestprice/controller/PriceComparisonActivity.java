@@ -57,7 +57,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 DatabaseSQLite db = new DatabaseSQLite(PriceComparisonActivity.this);
-                
+
             }
         });
     }
@@ -77,6 +77,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
     private void createPrix()
     {
         boolean success;
+        DatabaseSQLite db = new DatabaseSQLite(PriceComparisonActivity.this);
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Prix tmpPrix = new Prix(produit.getCodeBarres(), newPrice, format.format(new Date()),
@@ -108,6 +109,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
                     }
                 });
             }
+            db.addPrix(tmpPrix);
         } catch (Exception e){
             e.printStackTrace();
         }

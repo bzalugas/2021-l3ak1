@@ -41,6 +41,23 @@ public class Prix implements Serializable
 		localisation_nom = "";
 	}
 
+	public Prix(long id, String codeBarres, double prix, String date, long localisation_id)
+	{
+		this.id = id;
+		this.codeBarres = codeBarres;
+		this.prix = prix;
+		this.date = date;
+		this.localisation_id = localisation_id;
+	}
+
+	public Prix(String codeBarres, double prix, String date, long localisation_id)
+	{
+		this.codeBarres = codeBarres;
+		this.prix = prix;
+		this.date = date;
+		this.localisation_id = localisation_id;
+	}
+
 	public Prix(String codeBarres, double prix, String date, long localisation_id, String localisation_nom)
 	{
 		this.codeBarres = codeBarres;

@@ -65,6 +65,89 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		super (context, DB_NAME, null, DB_VERSION);
 	}
 
+	/*Special historic method*/
+
+
+
+	/*Localisation related methods*/
+
+	public boolean addLocalisation(Localisation loc)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues cv = new ContentValues();
+
+		cv.put(COL_LATITUDE, loc.getLatitude());
+		cv.put(COL_LONGITUDE, loc.getLongitude());
+		cv.put(COL_LOCALISATION_NOM, loc.getNom());
+
+		long insert = db.insert(TABLE_LOCALISATION, null, cv);
+		return insert == -1 ? false : true;
+	}
+
+	public Localisation getLocalisationById(long id)
+	{
+		Localisation loc = new Localisation();
+		String query = "SELECT * FROM " + TABLE_LOCALISATION + " WHERE " + COL_LOCALISATION_ID +
+				" = ?;";
+		SQLiteDatabase db = this.getReadableDatabase();
+		String[] params = {Long.toString(id)};
+		Cursor cursor = db.rawQuery(query, params);
+		if (cursor.moveToFirst())
+		{
+			loc.setId(id);
+			loc.setLatitude(cursor.getDouble(1));
+			loc.setLongitude(cursor.getDouble(2));
+			loc.setNom(cursor.getString(3));
+		}
+		cursor.close();
+		db.close();
+		return loc;
+	}
+
+	/*Prix related methods*/
+
+	public boolean addPrix(Prix prix)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues cv = new ContentValues();
+
+		cv.put(COL_PRIX_CODE_BARRES, prix.getCodeBarres());
+		cv.put(COL_PRIX, prix.getPrix());
+		cv.put(COL_DATE, prix.getDate());
+		cv.put(COL_PRIX_LOCALISATION_ID, prix.getLocalisation_id());
+
+		long insert = db.insert(TABLE_PRIX, null, cv);
+		return insert == -1 ? false : true;
+	}
+
+	public Prix getPrixById(long id)
+	{
+		Prix prix = new Prix();
+		String query = "SELECT * FROM " + TABLE_PRIX + " WHERE " + COL_PRIX_ID + " = ?;";
+		SQLiteDatabase db = this.getReadableDatabase();
+		String[] params = {Long.toString(id)};
+		Cursor cursor = db.rawQuery(query, params);
+		if (cursor.moveToFirst())
+		{
+			prix.setId(id);
+			prix.setCodeBarres(cursor.getString(1));
+			prix.setPrix(cursor.getDouble(2));
+			prix.setDate(cursor.getString(3));
+			prix.setLocalisation_id(cursor.getLong(4));
+		}
+		cursor.close();
+		db.close();
+		return prix;
+	}
+
+//	public List<Prix> getAllPrixProduit(String codeBarres)
+//	{
+//		List<Prix> prix = new ArrayList<>();
+//		String query = "SELECT ";
+//	}
+
+	/*Produit related methods*/
+
 	public boolean addProduit(Produit produit)
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -85,7 +168,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 	public List<Produit> getAllProduits()
 	{
 		List<Produit> produits = new ArrayList<>();
-		String query = "SELECT * FROM " + TABLE_PRODUIT;
+		String query = "SELECT * FROM " + TABLE_PRODUIT + ";";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(query, null);
 		if (cursor.moveToFirst())
@@ -104,6 +187,27 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		cursor.close();
 		db.close();
 		return produits;
+	}
+
+	public Produit getProduitByCodeBarres(String codeBarres)
+	{
+		Produit produit = new Produit();
+		String query = "SELECT * FROM " + TABLE_PRODUIT + " WHERE " + COL_PRODUIT_CODE_BARRES +
+				" = ?;";
+		SQLiteDatabase db = this.getReadableDatabase();
+		String[] params = {codeBarres};
+		Cursor cursor = db.rawQuery(query, params);
+		if (cursor.moveToFirst())
+		{
+			produit.setCodeBarres(codeBarres);
+			produit.setMarque(cursor.getString(1));
+			produit.setNom(cursor.getString(2));
+			produit.setContenu(cursor.getString(3));
+			produit.setImagePath(cursor.getString(4));
+		}
+		cursor.close();
+		db.close();
+		return produit;
 	}
 
 	@Override

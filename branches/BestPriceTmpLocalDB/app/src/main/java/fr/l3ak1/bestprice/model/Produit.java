@@ -24,6 +24,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Class to represent a Product
+ */
 public class Produit implements Serializable
 {
 	@SerializedName("codebarres") private String codeBarres;
@@ -51,6 +54,12 @@ public class Produit implements Serializable
 		this.imagePath = imagePath;
 	}
 
+	/**
+	 * get a Product by barcode from the online API
+	 * @param codeBarres the barcode to search for
+	 * @return the CompletableFuture containing the Product
+	 * @throws IOException
+	 */
 	public static CompletableFuture<Produit> getProduit(String codeBarres) throws IOException
 	{
 		CompletableFuture<Produit> f = new CompletableFuture<>();

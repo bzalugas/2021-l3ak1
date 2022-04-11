@@ -10,6 +10,9 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to manage local database operations
+ */
 public class DatabaseSQLite extends SQLiteOpenHelper
 {
 	private static final String DB_NAME = "BestPriceDB.db";
@@ -71,6 +74,11 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 
 	/*Localisation related methods*/
 
+	/**
+	 * Add a Location to local database
+	 * @param loc Location object to add
+	 * @return true if the insert is a success, false if not
+	 */
 	public boolean addLocalisation(Localisation loc)
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -84,6 +92,11 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		return insert == -1 ? false : true;
 	}
 
+	/**
+	 * Get a location by id in local database
+	 * @param id id of the location to search for
+	 * @return Location object if found. Empty location object if not found.
+	 */
 	public Localisation getLocalisationById(long id)
 	{
 		Localisation loc = new Localisation();
@@ -106,6 +119,11 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 
 	/*Prix related methods*/
 
+	/**
+	 * Add a Price to local database
+	 * @param prix Price object to add
+	 * @return true if the insert successes, false otherwise
+	 */
 	public boolean addPrix(Prix prix)
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -120,6 +138,11 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		return insert == -1 ? false : true;
 	}
 
+	/**
+	 * Get a Price by ID in local database
+	 * @param id ID of the Price to search for
+	 * @return Price object if found. Empty Price object otherwise.
+	 */
 	public Prix getPrixById(long id)
 	{
 		Prix prix = new Prix();

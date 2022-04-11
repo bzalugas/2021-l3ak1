@@ -15,6 +15,9 @@ import java.util.List;
 
 import fr.l3ak1.bestprice.R;
 
+/**
+ * Class for displaying the Product history in a listView
+ */
 public class ProduitAdapter extends BaseAdapter
 {
 	private Activity activity;

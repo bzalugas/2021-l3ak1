@@ -112,6 +112,7 @@ public class ProduitInfoActivity extends AppCompatActivity
 				}
 			});
 
+
 	private void saveLocalProduit()
 	{
 		DatabaseSQLite db = new DatabaseSQLite(ProduitInfoActivity.this);

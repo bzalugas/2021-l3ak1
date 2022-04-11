@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
@@ -41,8 +42,20 @@ public class MainActivity extends AppCompatActivity {
 		buttonScan.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent scanIntent = new Intent(MainActivity.this, ProduitInfoActivity.class);
-				startActivity(scanIntent);
+				Intent produitInfoIntent = new Intent(MainActivity.this, ProduitInfoActivity.class);
+				produitInfoIntent.putExtra("SCAN_NEEDED", true);
+				startActivity(produitInfoIntent);
+			}
+		});
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				Intent produitInfoIntent = new Intent(MainActivity.this, ProduitInfoActivity.class);
+				produitInfoIntent.putExtra("PRODUIT", (Produit) parent.getItemAtPosition(position));
+				startActivity(produitInfoIntent);
 			}
 		});
 	}

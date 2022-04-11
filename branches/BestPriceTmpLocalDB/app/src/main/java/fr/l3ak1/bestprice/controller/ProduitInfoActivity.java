@@ -44,11 +44,9 @@ import okhttp3.Response;
 public class ProduitInfoActivity extends AppCompatActivity
 {
 	private Produit produit;
-	private TextView editTextCodeBarres;
 	private TextView textViewMarque;
 	private TextView textViewNom;
 	private TextView textViewContenu;
-//	private EditText editTextimagePath;
 	private ImageView imageView;
 	private Button btnComparisonPrice;
 	private Button btnEvolutionPrice;
@@ -85,7 +83,13 @@ public class ProduitInfoActivity extends AppCompatActivity
 				startActivity(evolutionIntent);
 			}
 		});
-		launchScan();
+		if (getIntent().getBooleanExtra("SCAN_NEEDED", false))
+			launchScan();
+		else
+		{
+			this.produit = (Produit) getIntent().getSerializableExtra("PRODUIT");
+			displayInfosProduit();
+		}
 	}
 
 	private final ActivityResultLauncher<ScanOptions> scanLauncher =

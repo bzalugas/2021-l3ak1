@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+
+    tools:context=".controller.ProduitInfoActivity"
+    android:orientation="vertical">
+
+<!--    <EditText-->
+<!--        android:id="@+id/scan_edittext_image_path"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginVertical="4dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:hint="URL image du produit" />-->
+
+
+    <TextView
+        android:id="@+id/scan_edittext_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginVertical="4dp"
+        android:layout_gravity="center"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        android:text="INFORMATION SUR LE PRODUIT"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/scan_imageview"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+<!--    <EditText-->
+<!--        android:id="@+id/scan_edittext_codebarres"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginVertical="4dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textSize="20dp"-->
+<!--        android:hint="Code-barres du produit" />-->
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginVertical="4dp"
+        android:textSize="20sp"
+        android:textAlignment="textStart"
+        android:hint="Marque "/>
+
+    <TextView
+        android:id="@+id/scan_edittext_marque"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginVertical="4dp"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="Information non disponible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginVertical="4dp"
+        android:textSize="20sp"
+        android:hint="Nom "/>
+
+    <TextView
+        android:id="@+id/scan_edittext_nom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginVertical="4dp"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:text="Information non disponible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginVertical="4dp"
+        android:textSize="20sp"
+        android:textAlignment="textStart"
+        android:hint="Contenu "/>
+
+    <TextView
+        android:id="@+id/scan_edittext_contenu"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginVertical="4dp"
+        android:textSize="20sp"
+        android:text="Information non disponible"
+        android:layout_gravity="center"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/scan_button_comparaison_prix"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Comparer le prix" />
+
+    <Button
+        android:id="@+id/scan_button_evolution_prix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Evolution du prix" />
+
+</LinearLayout>

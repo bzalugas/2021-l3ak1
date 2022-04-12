@@ -1,0 +1,8 @@
+POST /produits => ajouter un produit
+GET /produits => recuperer tous les produits
+GET /produits/{codeBarres} => recuperer les infos d'un produit particulier
+PUT /produits/{codeBarres} => modifier les infos d'un produit
+
+GET /produits/{codeBarres}/Prix => obtenir tous les prix d'un produit
+GET /produits/{codeBarres}/Prix?localisation={idLocalisation} => obtenir les prix d'un produit en fonction de la localisation
+POST /produits/{codeBarres}/Prix => Ajouter un prix à un produit

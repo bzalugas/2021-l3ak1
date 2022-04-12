@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/produit_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,35 +17,38 @@
         app:srcCompat="@drawable/img_pannier" />
 
     <TextView
-        android:id="@+id/produit_text_marque"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="4dp"
-        android:text="Marque"
+        android:id="@+id/produit_text_nom"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="Nom"
+        android:lines="2"
+        android:minLines="2"
+        android:singleLine="false"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/produit_image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/produit_text_nom"
+        android:id="@+id/produit_text_marque"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
-        android:text="Nom"
-        android:textStyle="italic"
+        android:text="Marque"
         android:textSize="18sp"
+        android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/produit_image"
-        app:layout_constraintTop_toBottomOf="@+id/produit_text_marque" />
+        app:layout_constraintTop_toBottomOf="@+id/produit_text_nom" />
 
     <TextView
         android:id="@+id/produit_text_contenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
         android:text="Contenu"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/produit_image"
@@ -55,21 +58,22 @@
         android:id="@+id/divider2"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
+        android:layout_marginTop="40dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/produit_image" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:text="Prix"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/produit_text_nom"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.471"
-        tools:ignore="MissingConstraints" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="prix"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/produit_image" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

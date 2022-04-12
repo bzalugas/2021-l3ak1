@@ -140,20 +140,11 @@ public class ProduitInfoActivity extends AppCompatActivity
 			if (produit.getImagePath() != null && !produit.getImagePath().isEmpty())
 				loadProduitImage();
 			if (!produit.getMarque().isEmpty())
-			{
 				textViewMarque.setText(produit.getMarque());
-				textViewMarque.setEnabled(false);
-			}
 			if (!produit.getNom().isEmpty())
-			{
 				textViewNom.setText(produit.getNom());
-				textViewNom.setEnabled(false);
-			}
 			if (produit.getContenu() != null && !produit.getContenu().isEmpty())
-			{
 				textViewContenu.setText(produit.getContenu());
-				textViewContenu.setEnabled(false);
-			}
 		} catch (Exception e){
 			e.printStackTrace();
 		}

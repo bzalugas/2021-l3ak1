@@ -31,6 +31,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import fr.l3ak1.bestprice.R;
+import fr.l3ak1.bestprice.model.DatabaseSQLite;
 import fr.l3ak1.bestprice.model.Prix;
 import fr.l3ak1.bestprice.model.Produit;
 import okhttp3.Call;
@@ -43,11 +44,9 @@ import okhttp3.Response;
 public class ProduitInfoActivity extends AppCompatActivity
 {
 	private Produit produit;
-	private TextView editTextCodeBarres;
 	private TextView textViewMarque;
 	private TextView textViewNom;
 	private TextView textViewContenu;
-//	private EditText editTextimagePath;
 	private ImageView imageView;
 	private Button btnComparisonPrice;
 	private Button btnEvolutionPrice;
@@ -58,15 +57,10 @@ public class ProduitInfoActivity extends AppCompatActivity
 		super.onCreate(savedInstance);
 		setContentView(R.layout.activity_produit_info);
 
-
-//		editTextCodeBarres = findViewById(R.id.scan_edittext_codebarres);
 		textViewMarque = findViewById(R.id.scan_edittext_marque);
 		textViewNom = findViewById(R.id.scan_edittext_nom);
 		textViewContenu = findViewById(R.id.scan_edittext_contenu);
-//		editTextimagePath = findViewById(R.id.scan_edittext_image_path);
 		imageView = findViewById(R.id.scan_imageview);
-//		addButton = findViewById(R.id.scan_button_ajouter);
-//		getButton = findViewById(R.id.scan_button_voir);
 		btnComparisonPrice = findViewById(R.id.scan_button_comparaison_prix);
 
 		btnComparisonPrice.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +83,13 @@ public class ProduitInfoActivity extends AppCompatActivity
 				startActivity(evolutionIntent);
 			}
 		});
-		launchScan();
+		if (getIntent().getBooleanExtra("SCAN_NEEDED", false))
+			launchScan();
+		else
+		{
+			this.produit = (Produit) getIntent().getSerializableExtra("PRODUIT");
+			displayInfosProduit();
+		}
 	}
 
 	private final ActivityResultLauncher<ScanOptions> scanLauncher =
@@ -104,12 +104,25 @@ public class ProduitInfoActivity extends AppCompatActivity
 					try {
 						CompletableFuture<Produit> f = Produit.getProduit(result.getContents());
 						this.produit = f.get();
+						saveLocalProduit();
 						displayInfosProduit();
 					} catch (Exception e){
 						e.printStackTrace();
 					}
 				}
 			});
+
+
+	private void saveLocalProduit()
+	{
+		DatabaseSQLite db = new DatabaseSQLite(ProduitInfoActivity.this);
+		Produit prod = db.getProduitByCodeBarres(this.produit.getCodeBarres());
+		if (!prod.getCodeBarres().isEmpty())
+			return;
+		boolean success = db.addProduit(this.produit);
+		if (!success)
+			Toast.makeText(this, "Error trying to add produit", Toast.LENGTH_SHORT).show();
+	}
 
 	private void launchScan()
 	{
@@ -126,8 +139,6 @@ public class ProduitInfoActivity extends AppCompatActivity
 		try{
 			if (produit.getImagePath() != null && !produit.getImagePath().isEmpty())
 				loadProduitImage();
-//			editTextCodeBarres.setText(produit.getCodeBarres());
-//			editTextCodeBarres.setEnabled(false);
 			if (!produit.getMarque().isEmpty())
 			{
 				textViewMarque.setText(produit.getMarque());
@@ -143,11 +154,6 @@ public class ProduitInfoActivity extends AppCompatActivity
 				textViewContenu.setText(produit.getContenu());
 				textViewContenu.setEnabled(false);
 			}
-//			if (!produit.getImagePath().isEmpty())
-//			{
-//				editTextimagePath.setText(produit.getImagePath());
-//				editTextimagePath.setEnabled(false);
-//			}
 		} catch (Exception e){
 			e.printStackTrace();
 		}

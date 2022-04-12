@@ -15,6 +15,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Class to represent a Location
+ */
 public class Localisation implements Serializable
 {
 	private long id;
@@ -46,6 +49,12 @@ public class Localisation implements Serializable
 		this.nom = nom;
 	}
 
+	/**
+	 * Get a location by ID from the online API
+	 * @param id ID of the localisation searched
+	 * @return Location object contained in completableFuture
+	 * @throws IOException
+	 */
 	public static CompletableFuture<Localisation> getLocalisationById(long id) throws IOException
 	{
 		CompletableFuture<Localisation> f = new CompletableFuture<>();
@@ -77,42 +86,73 @@ public class Localisation implements Serializable
 		return f;
 	}
 
+	/**
+	 * get ID
+	 * @return ID
+	 */
 	public long getId()
 	{
-//		return 1;
 		return id;
 	}
 
+	/**
+	 * set ID
+	 * @param id ID to set
+	 */
 	public void setId(long id)
 	{
 		this.id = id;
 	}
 
+	/**
+	 * get latitude
+	 * @return latitude
+	 */
 	public double getLatitude()
 	{
 		return latitude;
 	}
 
+	/**
+	 * set latitude
+	 * @param latitude latitude to set
+	 */
 	public void setLatitude(double latitude)
 	{
 		this.latitude = latitude;
 	}
 
+	/**
+	 * get longitude
+	 * @return longitude
+	 */
 	public double getLongitude()
 	{
 		return longitude;
 	}
 
+	/**
+	 * set longitude
+	 * @param longitude to set
+	 */
 	public void setLongitude(double longitude)
 	{
 		this.longitude = longitude;
 	}
 
+	/**
+	 * get name
+	 * @return name
+	 */
 	public String getNom()
 	{
 		return nom;
 	}
 
+	/**
+	 * set name
+	 * @param nom name to set
+	 */
 	public void setNom(String nom)
 	{
 		this.nom = nom;

@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 import fr.l3ak1.bestprice.R;
+import fr.l3ak1.bestprice.model.DatabaseSQLite;
 import fr.l3ak1.bestprice.model.Localisation;
 import fr.l3ak1.bestprice.model.Prix;
 import fr.l3ak1.bestprice.model.Produit;
@@ -32,6 +35,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
     private ArrayList<Localisation> localisationsPrix;
     private ListView listViewComparison;
     private double newPrice;
+    private Button btnChangePrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +43,23 @@ public class PriceComparisonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_price_comparison);
 
         listViewComparison = findViewById(R.id.comparison_listview_enseigne);
+        btnChangePrice = findViewById(R.id.comparison_button_change_price);
 
         produit = (Produit)getIntent().getSerializableExtra("produit");
 
         getLocation();
         getPrices();
         displayPrices();
+
+        btnChangePrice.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                DatabaseSQLite db = new DatabaseSQLite(PriceComparisonActivity.this);
+
+            }
+        });
     }
 
     private void getLocation()
@@ -62,6 +77,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
     private void createPrix()
     {
         boolean success;
+        DatabaseSQLite db = new DatabaseSQLite(PriceComparisonActivity.this);
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Prix tmpPrix = new Prix(produit.getCodeBarres(), newPrice, format.format(new Date()),
@@ -93,6 +109,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
                     }
                 });
             }
+            db.addPrix(tmpPrix);
         } catch (Exception e){
             e.printStackTrace();
         }

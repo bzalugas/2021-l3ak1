@@ -8,24 +8,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.l3ak1.bestprice.R;
+import fr.l3ak1.bestprice.model.DatabaseSQLite;
+import fr.l3ak1.bestprice.model.Produit;
+import fr.l3ak1.bestprice.model.ProduitAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-	private Button buttonHist;
 	private Button buttonScan;
-	private Button buttonFiltre;
-	private Button test;
 	private ListView listView;
+	private List<Produit> produits;
+	private ProduitAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,36 +38,40 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 
 		buttonScan = findViewById(R.id.main_button_scan);
+		listView = findViewById(R.id.main_listview_bdd);
 		buttonScan.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent scanIntent = new Intent(MainActivity.this, ProduitInfoActivity.class);
-				startActivity(scanIntent);
+				Intent produitInfoIntent = new Intent(MainActivity.this, ProduitInfoActivity.class);
+				produitInfoIntent.putExtra("SCAN_NEEDED", true);
+				startActivity(produitInfoIntent);
 			}
 		});
 
-		//buttonHist = findViewById(R.id.main_button_hist);
-		//buttonHist.setEnabled(false);
-		//buttonHist.setOnClickListener(new View.OnClickListener()
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
-		//	@Override
-		//	public void onClick(View view)
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
-//				Intent infosIntent = new Intent(MainActivity.this, HistoricActivity.class);
-//				startActivity(infosIntent);
-
+				Intent produitInfoIntent = new Intent(MainActivity.this, ProduitInfoActivity.class);
+				produitInfoIntent.putExtra("PRODUIT", (Produit) parent.getItemAtPosition(position));
+				startActivity(produitInfoIntent);
 			}
-		}
-
-//		buttonFiltre = findViewById(R.id.main_button_filtre);
-//		buttonFiltre.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View view) {
-//				Toast.makeText(MainActivity.this, "Tri par distance", Toast.LENGTH_LONG).show();
-//			}
-//		});
+		});
 	}
 
+	protected void onResume()
+	{
+		super.onResume();
+		DatabaseSQLite db = new DatabaseSQLite(MainActivity.this);
+		showProduits(db);
+	}
 
+	private void showProduits(DatabaseSQLite db)
+	{
+		produits = db.getAllProduits();
+		adapter = new ProduitAdapter(this, produits);
+		listView.setAdapter(adapter);
+	}
 
 }

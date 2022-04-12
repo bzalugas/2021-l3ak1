@@ -22,6 +22,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * Class to represent a Price
+ */
 public class Prix implements Serializable
 {
 	private long id;
@@ -39,6 +42,23 @@ public class Prix implements Serializable
 		date = "";
 		localisation_id = 0;
 		localisation_nom = "";
+	}
+
+	public Prix(long id, String codeBarres, double prix, String date, long localisation_id)
+	{
+		this.id = id;
+		this.codeBarres = codeBarres;
+		this.prix = prix;
+		this.date = date;
+		this.localisation_id = localisation_id;
+	}
+
+	public Prix(String codeBarres, double prix, String date, long localisation_id)
+	{
+		this.codeBarres = codeBarres;
+		this.prix = prix;
+		this.date = date;
+		this.localisation_id = localisation_id;
 	}
 
 	public Prix(String codeBarres, double prix, String date, long localisation_id, String localisation_nom)
@@ -61,6 +81,12 @@ public class Prix implements Serializable
 		this.localisation_nom = localisation_nom;
 	}
 
+	/**
+	 * Get a list of prices by barcode of product from the online API
+	 * @param codeBarres the barcode to search for
+	 * @return an ArrayList of prices contained in a CompletableFuture
+	 * @throws IOException
+	 */
 	public static CompletableFuture<ArrayList<Prix>> getAllPrix(String codeBarres) throws IOException
 	{
 		CompletableFuture<ArrayList<Prix>> f = new CompletableFuture<>();
@@ -105,6 +131,11 @@ public class Prix implements Serializable
 		return f;
 	}
 
+	/**
+	 * Add a price to online API
+	 * @return a boolean representing the success or not of the request
+	 * @throws IOException
+	 */
 	public CompletableFuture<Boolean> addPrix() throws IOException
 	{
 		CompletableFuture<Boolean> f = new CompletableFuture<>();

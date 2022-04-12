@@ -9,13 +9,21 @@
 
     <ListView
         android:id="@+id/comparison_listview_enseigne"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="317dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:divider="@color/white"
         android:dividerHeight="1dp" />
 
+    <Button
+        android:id="@+id/comparison_button_change_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="43dp"
+        android:text="@string/button_add_price" />
 
 
 </RelativeLayout>

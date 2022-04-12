@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">BestPrice</string>
-    <string name="button_price_changed">Le prix a changé ?</string>
-    <string name="button_add_price">Ajouter un prix</string>
-</resources>

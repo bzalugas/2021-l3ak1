@@ -38,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:adjustViewBounds="true"
+        android:background="@drawable/border"
         android:layout_centerInParent="true" />
 
 <!--    <EditText-->
@@ -128,8 +129,8 @@
 
     <Button
         android:id="@+id/scan_button_evolution_prix"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:text="Evolution du prix" />
 

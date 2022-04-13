@@ -81,8 +81,11 @@ public class Produit implements Serializable
 					prod.setCodeBarres(codeBarres);
 					f.complete(prod);
 				}
-				Gson gson = new Gson();
-				f.complete(gson.fromJson(response.body().string(), Produit.class));
+				else
+				{
+					Gson gson = new Gson();
+					f.complete(gson.fromJson(response.body().string(), Produit.class));
+				}
 			}
 		});
 		return f;

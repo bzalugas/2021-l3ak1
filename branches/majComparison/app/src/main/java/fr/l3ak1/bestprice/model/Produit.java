@@ -1,22 +1,14 @@
 package fr.l3ak1.bestprice.model;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
-import fr.l3ak1.bestprice.controller.ProduitInfoActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -32,25 +24,25 @@ public class Produit implements Serializable
 	@SerializedName("codebarres") private String codeBarres;
 	private String marque;
 	private String nom;
-	private String contenu;
+	private String quantite;
 	@SerializedName("imagepath") private String imagePath;
 	private static final OkHttpClient client = new OkHttpClient();
 
 	public Produit()
 	{
-		this.codeBarres = "";
-		this.marque = "";
-		this.nom = "";
-		this.contenu = "";
-		this.imagePath = "";
+		this.codeBarres = null;
+		this.marque = null;
+		this.nom = null;
+		this.quantite = null;
+		this.imagePath = null;
 	}
 
-	public Produit(String codeBarres, String marque, String nom, String contenu, String imagePath)
+	public Produit(String codeBarres, String marque, String nom, String quantite, String imagePath)
 	{
 		this.codeBarres = codeBarres;
 		this.marque = marque;
 		this.nom = nom;
-		this.contenu = contenu;
+		this.quantite = quantite;
 		this.imagePath = imagePath;
 	}
 
@@ -85,20 +77,34 @@ public class Produit implements Serializable
 			{
 				if (!response.isSuccessful())
 				{
-					switch (response.code())
-					{
-						default:
-//							throw new IOException("Error in request, error code : " + response.code());
-							Produit prod = new Produit();
-							prod.setCodeBarres(codeBarres);
-							f.complete(prod);
-					}
+					Produit prod = new Produit();
+					prod.setCodeBarres(codeBarres);
+					f.complete(prod);
 				}
-					Gson gson = new Gson();
-					f.complete(gson.fromJson(response.body().string(), Produit.class));
+				Gson gson = new Gson();
+				f.complete(gson.fromJson(response.body().string(), Produit.class));
 			}
 		});
 		return f;
+	}
+
+	/**
+	 * Check if the minimum fields required for DB are set
+	 * @return true if the minimum fields are set and false otherwise
+	 */
+	public boolean minComplete()
+	{
+		return (this.codeBarres != null && this.nom != null);
+	}
+
+	/**
+	 * Ceck if all the fields are set
+	 * @return true if all fields are set and false otherwise
+	 */
+	public boolean isComplete()
+	{
+		return (this.codeBarres != null && this.marque != null && this.nom != null
+				&& this.quantite != null && this.imagePath != null);
 	}
 
 	@Override
@@ -106,7 +112,7 @@ public class Produit implements Serializable
 	{
 		StringBuilder s = new StringBuilder("code-barres : ");
 		s.append(codeBarres).append("\nmarque : ").append(marque).append("\nnom : ")
-				.append(nom).append("\ncontenu : ").append(contenu).append("\nimage : ").append(imagePath);
+				.append(nom).append("\ncontenu : ").append(quantite).append("\nimage : ").append(imagePath);
 		return s.toString();
 	}
 
@@ -137,14 +143,14 @@ public class Produit implements Serializable
 		this.nom = nom;
 	}
 
-	public String getContenu()
+	public String getQuantite()
 	{
-		return contenu;
+		return quantite;
 	}
 
-	public void setContenu(String contenu)
+	public void setQuantite(String quantite)
 	{
-		this.contenu = contenu;
+		this.quantite = quantite;
 	}
 
 	public String getImagePath()

@@ -48,10 +48,10 @@ function getFromOpenFFApi($produit)
 		}
 	}
 	$infos = [
-		"marque" => $tmp['brands'] ?? "Unknown brand",
+		"marque" => $tmp['brands'] ?? null,
 		"nom" => $tmp['product_name_fr'] ?? $tmp['product_name'],
-		"contenu" => $tmp['quantity'] ?? "",
-		"imagePath" => $tmp['image_url']
+		"quantite" => $tmp['quantity'] ?? null,
+		"imagePath" => $tmp['image_url'] ?? null
 	];
 	return $infos;
 }
@@ -76,10 +76,10 @@ function getFromBarcodeLookupApi($produit)
 	else
 	{
 		$tmp = [
-			"marque" => $res->products[0]->brand,
+			"marque" => $res->products[0]->brand ?? null,
 			"nom" => $res->products[0]->title,
-			"contenu" => "",
-			"imagePath" => $res->products[0]->images[0]
+			"quantite" => null,
+			"imagePath" => $res->products[0]->images[0] ?? null
 		];
 		return $tmp;
 	}
@@ -96,6 +96,7 @@ else
 	$infos = getFromApi($produit);
 	if ($infos == false)
 	{
+		http_response_code(404);
 		die(json_encode(["exists" => false]));
 	}
 	$produit->setAttributes($infos);

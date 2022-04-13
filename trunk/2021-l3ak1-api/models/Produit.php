@@ -6,12 +6,17 @@ class Produit
 	public $codeBarres;
 	public $marque;
 	public $nom;
-	public $contenu;
+	public $quantite;
 	public $imagePath;
 
 	public function __construct($db)
 	{
 		$this->db = $db;
+	}
+
+	public function minAttributesSet()
+	{
+		return ($this->codeBarres != null && $this->marque != null && $this->nom != null);
 	}
 
 	public function setAttributes($infos = [])
@@ -20,7 +25,7 @@ class Produit
 			$this->codeBarres = $infos['codeBarres'];
 		$this->marque = $infos['marque'];
 		$this->nom = $infos['nom'];
-		$this->contenu = $infos['contenu'];
+		$this->quantite = $infos['quantite'];
 		$this->imagePath = $infos['imagePath'];
 	}
 
@@ -30,7 +35,7 @@ class Produit
 			'codebarres' => $this->codeBarres,
 			'marque' => $this->marque,
 			'nom' => $this->nom,
-			'contenu' => $this->contenu,
+			'quantite' => $this->quantite,
 			'imagepath' => $this->imagePath
 		];
 		return $attributes;
@@ -38,14 +43,16 @@ class Produit
 
 	public function insert()
 	{
-		$sql = "INSERT INTO Produit VALUES (:codeBarres, :marque, :nom, :contenu, :imagePath)";
+		if (!$this->minAttributesSet())
+			return false;
+		$sql = "INSERT INTO Produit VALUES (:codeBarres, :marque, :nom, :quantite, :imagePath)";
 		try{
 			$res = $this->db->prepare($sql);
 			$res->execute([
 				'codeBarres' => $this->codeBarres,
 				'marque' => $this->marque,
 				'nom' => $this->nom,
-				'contenu' => $this->contenu,
+				'quantite' => $this->quantite,
 				'imagePath' => $this->imagePath
 			]);
 			return $res->rowCount();
@@ -81,7 +88,7 @@ class Produit
 				$this->codeBarres = $res['codebarres'];
 				$this->marque = $res['marque'];
 				$this->nom = $res['nom'];
-				$this->contenu = $res['contenu'];
+				$this->quantite = $res['quantite'];
 				$this->imagePath = $res['imagepath'];
 			}
 			return $res;
@@ -93,7 +100,7 @@ class Produit
 	public function update(Array $infos)
 	{
 		$sql = "UPDATE Produit
-				SET marque = :marque, nom = :nom, contenu = :contenu, imagePath = :imagePath
+				SET marque = :marque, nom = :nom, quantite = :quantite, imagePath = :imagePath
 				WHERE codeBarres = :codeBarres";
 		try{
 			$res = $this->db->prepare($sql);
@@ -101,7 +108,7 @@ class Produit
 				'codeBarres' => $this->codeBarres,
 				'marque' => $infos['marque'],
 				'nom' => $infos['nom'],
-				'contenu' => $infos['contenu'] ?? null,
+				'quantite' => $infos['quantite'] ?? null,
 				'imagePath' => $infos['imagePath'] ?? null
 			]);
 			return $res->rowCount();

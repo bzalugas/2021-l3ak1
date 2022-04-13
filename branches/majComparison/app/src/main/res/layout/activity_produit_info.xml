@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,7 +22,7 @@
 
 
     <TextView
-        android:id="@+id/scan_edittext_title"
+        android:id="@+id/scan_text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -34,26 +35,13 @@
 
     <ImageView
         android:id="@+id/scan_imageview"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
         android:adjustViewBounds="true"
         android:background="@drawable/border"
-        android:layout_centerInParent="true" />
-
-<!--    <EditText-->
-<!--        android:id="@+id/scan_edittext_codebarres"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:layout_marginVertical="4dp"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:textSize="20dp"-->
-<!--        android:hint="Code-barres du produit" />-->
-
-
-
+        app:srcCompat="@drawable/img_pannier" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -66,7 +54,7 @@
         android:hint="Marque "/>
 
     <TextView
-        android:id="@+id/scan_edittext_marque"
+        android:id="@+id/scan_text_marque"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
@@ -87,7 +75,7 @@
         android:hint="Nom "/>
 
     <TextView
-        android:id="@+id/scan_edittext_nom"
+        android:id="@+id/scan_text_nom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
@@ -101,15 +89,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginVertical="4dp"
-        android:textSize="20sp"
+        android:hint="Quantité"
         android:textAlignment="textStart"
-        android:hint="Contenu "/>
+        android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/scan_edittext_contenu"
+        android:id="@+id/scan_text_quantite"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginStart="16dp"

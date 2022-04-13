@@ -57,13 +57,16 @@ public class ProduitAdapter extends BaseAdapter
 		ImageView img = oneProduitLine.findViewById(R.id.produit_image);
 		TextView tvMarque = oneProduitLine.findViewById(R.id.produit_text_marque);
 		TextView tvNom = oneProduitLine.findViewById(R.id.produit_text_nom);
-		TextView tvContenu = oneProduitLine.findViewById(R.id.produit_text_contenu);
+		TextView tvContenu = oneProduitLine.findViewById(R.id.produit_text_quantite);
 		Produit p = this.getItem(i);
 
-		Picasso.get().load(p.getImagePath()).into(img);
-		tvMarque.setText(p.getMarque());
+		if (p.getImagePath() != null && !p.getImagePath().isEmpty())
+			Picasso.get().load(p.getImagePath()).into(img);
+		if (p.getMarque() != null && !p.getMarque().isEmpty())
+			tvMarque.setText(p.getMarque());
 		tvNom.setText(p.getNom());
-		tvContenu.setText(p.getContenu());
+		if (p.getQuantite() != null && !p.getQuantite().isEmpty())
+			tvContenu.setText(p.getQuantite());
 		return oneProduitLine;
 	}
 }

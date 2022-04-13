@@ -15,7 +15,7 @@ if (isset($_POST['codeBarres']))
 else
 	$data = json_decode(file_get_contents("php://input"), true);
 
-if (!$data['codeBarres'] || !$data['marque'] || !$data['nom'])
+if (!$data['codeBarres'] || !$data['nom'])
 	die("Missing argument");
 
 $produit->setAttributes($data);

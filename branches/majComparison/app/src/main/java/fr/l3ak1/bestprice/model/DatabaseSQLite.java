@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 	private static final String COL_PRODUIT_CODE_BARRES = "codeBarres";
 	private static final String COL_MARQUE = "marque";
 	private static final String COL_PRODUIT_NOM = "nom";
-	private static final String COL_CONTENU = "contenu";
+	private static final String COL_QUANTITE = "quantite";
 	private static final String COL_IMAGE_PATH = "imagePath";
 	/*attributes table prix*/
 	private static final String TABLE_PRIX = "Prix";
@@ -48,9 +47,9 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 	private static final String CREATE_PRODUIT =
 			"CREATE TABLE " + TABLE_PRODUIT + " ("
 			+ COL_PRODUIT_CODE_BARRES + " VARCHAR(15) PRIMARY KEY, "
-			+ COL_MARQUE + " VARCHAR(255) NOT NULL, "
+			+ COL_MARQUE + " VARCHAR(255) DEFAULT NULL, "
 			+ COL_PRODUIT_NOM + " VARCHAR(255) NOT NULL, "
-			+ COL_CONTENU + " VARCHAR(255) DEFAULT NULL, "
+			+ COL_QUANTITE + " VARCHAR(255) DEFAULT NULL, "
 			+ COL_IMAGE_PATH + " TEXT);";
 	private static final String CREATE_PRIX =
 			"CREATE TABLE " + TABLE_PRIX + "( "
@@ -68,9 +67,15 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		super (context, DB_NAME, null, DB_VERSION);
 	}
 
-	/*Special historic method*/
+	/*Special historic methods*/
 
-
+	public boolean deleteAll()
+	{
+		this.deleteAllPrix();
+		this.deleteAllLocalisation();
+		this.deleteAllProduit();
+		return true;
+	}
 
 	/*Localisation related methods*/
 
@@ -115,6 +120,20 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		cursor.close();
 		db.close();
 		return loc;
+	}
+
+	/**
+	 * Delete all instances of location
+	 * @return true if success, false otherwise.
+	 */
+	public boolean deleteAllLocalisation()
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+		String query = "DELETE FROM " + TABLE_LOCALISATION;
+		Cursor cursor = db.rawQuery(query, null);
+		if (cursor.moveToFirst())
+			return true;
+		return false;
 	}
 
 	/*Prix related methods*/
@@ -163,6 +182,16 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		return prix;
 	}
 
+	public boolean deleteAllPrix()
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+		String query = "DELETE FROM " + TABLE_PRIX;
+		Cursor cursor = db.rawQuery(query, null);
+		if (cursor.moveToFirst())
+			return true;
+		return false;
+	}
+
 //	public List<Prix> getAllPrixProduit(String codeBarres)
 //	{
 //		List<Prix> prix = new ArrayList<>();
@@ -179,7 +208,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		cv.put(COL_PRODUIT_CODE_BARRES, produit.getCodeBarres());
 		cv.put(COL_MARQUE, produit.getMarque());
 		cv.put(COL_PRODUIT_NOM, produit.getNom());
-		cv.put(COL_CONTENU, produit.getContenu());
+		cv.put(COL_QUANTITE, produit.getQuantite());
 		cv.put(COL_IMAGE_PATH, produit.getImagePath());
 
 		long insert = db.insert(TABLE_PRODUIT, null, cv);
@@ -225,12 +254,22 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 			produit.setCodeBarres(codeBarres);
 			produit.setMarque(cursor.getString(1));
 			produit.setNom(cursor.getString(2));
-			produit.setContenu(cursor.getString(3));
+			produit.setQuantite(cursor.getString(3));
 			produit.setImagePath(cursor.getString(4));
 		}
 		cursor.close();
 		db.close();
 		return produit;
+	}
+
+	public boolean deleteAllProduit()
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+		String query = "DELETE FROM " + TABLE_PRODUIT;
+		Cursor cursor = db.rawQuery(query, null);
+		if (cursor.moveToFirst())
+			return true;
+		return false;
 	}
 
 	@Override

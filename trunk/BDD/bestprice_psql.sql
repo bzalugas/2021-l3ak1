@@ -37,9 +37,9 @@ DROP TABLE Produit;
 
 CREATE TABLE Produit (
   codeBarres VARCHAR(15) PRIMARY KEY,
-  marque VARCHAR(255) NOT NULL,
+  marque VARCHAR(255) DEFAULT NULL,
   nom VARCHAR(255) NOT NULL,
-  contenu VARCHAR(255) DEFAULT NULL,
+  quantite VARCHAR(255) DEFAULT NULL,
   imagePath TEXT
 );
 

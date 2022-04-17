@@ -69,9 +69,22 @@
         android:id="@+id/produit_text_prix"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="prix"
+        android:textColor="@color/orange"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/produit_image" />
+
+    <TextView
+        android:id="@+id/produit_text_euro"
+        android:layout_width="10dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:text="€"
+        android:textColor="@color/orange"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/produit_image" />

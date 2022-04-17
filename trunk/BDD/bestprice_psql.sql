@@ -55,7 +55,7 @@ CREATE TABLE Prix (
   id SERIAL PRIMARY KEY,
   Produit_codeBarres VARCHAR(15) NOT NULL REFERENCES Produit(codeBarres) ON DELETE CASCADE ON UPDATE CASCADE,
   prix NUMERIC(6, 2) NOT NULL,
-  datePrix DATE NOT NULL DEFAULT CURRENT_DATE,
+  datePrix TIMESTAMP (0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   Localisation_id SERIAL NOT NULL REFERENCES Localisation(id) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT cb_prix_datePrix_loc_unique UNIQUE(Produit_codeBarres, prix, datePrix, Localisation_id)
 );

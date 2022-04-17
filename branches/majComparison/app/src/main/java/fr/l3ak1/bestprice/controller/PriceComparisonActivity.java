@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -49,17 +50,22 @@ public class PriceComparisonActivity extends AppCompatActivity {
 
         getLocation();
         getPrices();
-        displayPrices();
 
         btnChangePrice.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                DatabaseSQLite db = new DatabaseSQLite(PriceComparisonActivity.this);
-
+                askNewPrice();
             }
         });
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        displayPrices();
     }
 
     private void getLocation()
@@ -95,8 +101,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
                         AlertDialog.Builder builder =
                                 new AlertDialog.Builder(PriceComparisonActivity.this);
                         builder.setTitle("Error");
-                        final TextView msg = new TextView(PriceComparisonActivity.this);
-                        msg.setText("An error has occured while trying to add price to this " +
+                        builder.setMessage("An error has occured while trying to add price to this " +
                                 "product.");
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener()
                         {
@@ -110,11 +115,10 @@ public class PriceComparisonActivity extends AppCompatActivity {
                 });
             }
             db.addPrix(tmpPrix);
+            this.prix.add(tmpPrix);
         } catch (Exception e){
             e.printStackTrace();
         }
-        this.prix.add(tmpPrix);
-
     }
 
     private void askNewPrice()
@@ -132,6 +136,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
             {
                 newPrice = Double.parseDouble(input.getText().toString());
                 createPrix();
+                onResume();
             }
         });
         builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener()
@@ -147,7 +152,6 @@ public class PriceComparisonActivity extends AppCompatActivity {
 
     private void displayPrices()
     {
-//        Log.d("nb prix", "nb prix : " + prix.size());
         ArrayAdapter<Prix> prixAdapter;
         prixAdapter = new ArrayAdapter<Prix>(this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, prix);
@@ -182,4 +186,17 @@ public class PriceComparisonActivity extends AppCompatActivity {
         }
         return nom;
     }
+//
+//    private void saveLocalProduit()
+//    {
+//        if (!this.produit.minComplete())
+//            return;
+//        DatabaseSQLite db = new DatabaseSQLite(PriceComparisonActivity.this);
+//        Produit prod = db.getProduitByCodeBarres(this.produit.getCodeBarres());
+//        if (prod.minComplete())
+//            return;
+//        boolean success = db.addProduit(this.produit);
+//        if (!success)
+//            Toast.makeText(this, "Error trying to add produit", Toast.LENGTH_SHORT).show();
+//    }
 }

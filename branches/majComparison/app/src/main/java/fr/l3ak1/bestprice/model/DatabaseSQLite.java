@@ -57,7 +57,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 			+ COL_PRIX_CODE_BARRES + "  VARCHAR(15) NOT NULL REFERENCES " +  TABLE_PRODUIT +
 					"(codeBarres) ON DELETE CASCADE ON UPDATE CASCADE, "
 			+ COL_PRIX + " NUMERIC(6, 2) NOT NULL, "
-			+ COL_DATE + " DATE NOT NULL DEFAULT CURRENT_DATE, "
+			+ COL_DATE + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, "
 			+ COL_PRIX_LOCALISATION_ID + " SERIAL NOT NULL REFERENCES " + TABLE_LOCALISATION + "(id) ON DELETE RESTRICT ON UPDATE CASCADE, "
 			+ "CONSTRAINT cb_prix_datePrix_loc_unique UNIQUE(" + COL_PRIX_CODE_BARRES +
 			", " + COL_PRIX + ", " + COL_DATE + ", " + COL_PRIX_LOCALISATION_ID + "));";
@@ -192,6 +192,43 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		return false;
 	}
 
+	public List<Prix> getLastPrices(List<Produit> produits)
+	{
+		List<Prix> prices = new ArrayList<>();
+//		String query =
+//				"SELECT * FROM " + TABLE_PRIX +
+//						" WHERE " + COL_PRIX_CODE_BARRES + " = ?" +
+//						" ORDER BY " + COL_DATE + " DESC" +
+//						" LIMIT 1";
+		/* tri par num d'id (donc ordre d'ajout dans la bdd). Mieux de changer la date en
+		datetime...
+		 */
+		String query =
+				"SELECT * FROM " + TABLE_PRIX +
+						" WHERE " + COL_PRIX_CODE_BARRES + " = ?" +
+						" ORDER BY " + COL_PRIX_ID + " DESC" +
+						" LIMIT 1";
+		String[] params = new String[1];
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor;
+		for (Produit p : produits)
+		{
+			params[0] = p.getCodeBarres();
+			cursor = db.rawQuery(query, params);
+			if (cursor.moveToFirst())
+			{
+				long id = cursor.getLong(0);
+				double prix = cursor.getDouble(2);
+				String date = cursor.getString(3);
+				long locId = cursor.getLong(4);
+				prices.add(new Prix(id, p.getCodeBarres(), prix,date,locId));
+			}
+			cursor.close();
+		}
+		db.close();
+		return prices;
+	}
+
 //	public List<Prix> getAllPrixProduit(String codeBarres)
 //	{
 //		List<Prix> prix = new ArrayList<>();
@@ -220,7 +257,8 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 	public List<Produit> getAllProduits()
 	{
 		List<Produit> produits = new ArrayList<>();
-		String query = "SELECT * FROM " + TABLE_PRODUIT + ";";
+		String query =
+				"SELECT * FROM " + TABLE_PRODUIT;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(query, null);
 		if (cursor.moveToFirst())
@@ -233,7 +271,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 				String contenu = cursor.getString(3);
 				String imagePath = cursor.getString(4);
 
-				produits.add(new Produit(codeBarres, marque, nom, contenu, imagePath));
+				produits.add(0, new Produit(codeBarres, marque, nom, contenu, imagePath));
 			} while (cursor.moveToNext());
 		}
 		cursor.close();

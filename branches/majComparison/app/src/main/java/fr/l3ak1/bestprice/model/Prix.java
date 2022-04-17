@@ -9,7 +9,9 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 import okhttp3.Call;
@@ -25,7 +27,7 @@ import okhttp3.Response;
 /**
  * Class to represent a Price
  */
-public class Prix implements Serializable
+public class Prix implements Serializable, Comparable<Prix>
 {
 	private long id;
 	@SerializedName("produit_codebarres") private String codeBarres;
@@ -181,6 +183,21 @@ public class Prix implements Serializable
 		return s.toString();
 	}
 
+	@Override
+	public int compareTo(Prix other)
+	{
+		Date date = null;
+		Date dateOther = null;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(this.getDate());
+			dateOther = new SimpleDateFormat("yyyy-MM-dd").parse(other.getDate());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return date.compareTo(dateOther);
+	}
+
 	public long getId()
 	{
 		return id;
@@ -235,4 +252,6 @@ public class Prix implements Serializable
 
 	public void setLocalisation_nom(String localisation_nom) { this.localisation_nom =
 			localisation_nom; }
+
+
 }

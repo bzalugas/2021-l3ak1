@@ -109,8 +109,8 @@
 
     <Button
         android:id="@+id/main_button_scan"
-        android:layout_width="180dp"
-        android:layout_height="140dp"
+        android:layout_width="120dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/img_scan"
@@ -120,11 +120,14 @@
 
     <ImageButton
         android:id="@+id/main_button_scan2"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_centerHorizontal="true"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignBottom="@id/main_button_scan"
-        android:layout_margin="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/img_barcode"
         android:backgroundTint="@color/grey"
         android:textColor="@color/blue"
@@ -145,8 +148,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginTop="70dp"
-        android:layout_marginBottom="150dp"
-        android:divider="@color/grey"
+        android:layout_marginBottom="110dp"
+        android:divider="@color/white"
         android:dividerHeight="1dp" />
 
 </RelativeLayout>

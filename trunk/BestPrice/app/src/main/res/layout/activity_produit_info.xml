@@ -21,13 +21,14 @@
 
 
     <TextView
-        android:id="@+id/scan_edittext_title"
+        android:id="@+id/scan_edittext_nom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginVertical="4dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="5dp"
         android:layout_gravity="center"
         android:textSize="22sp"
+        android:textAlignment="center"
         android:textColor="@color/black"
         android:text="INFORMATION SUR LE PRODUIT"
         android:textStyle="bold" />
@@ -38,8 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:adjustViewBounds="true"
-        android:background="@drawable/border"
-        android:layout_centerInParent="true" />
+        android:background="@drawable/border" />
 
 <!--    <EditText-->
 <!--        android:id="@+id/scan_edittext_codebarres"-->
@@ -51,9 +51,53 @@
 <!--        android:layout_gravity="center"-->
 <!--        android:textSize="20dp"-->
 <!--        android:hint="Code-barres du produit" />-->
+    <TextView
+        android:id="@+id/scan_textview_apartirde"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:text="à partir de " />
 
+    <TextView
+        android:id="@+id/scan_edittext_prix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="22sp"
+        android:textColor="@color/orange"
+        android:text="Prix"
+        android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/scan_button_comparaison_prix"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/blue"
+        android:textColor="@color/white"
+        android:text="Comparer les offres" />
 
+    <Button
+        android:id="@+id/scan_button_evolution_prix"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/img_evolution" />
+
+    <TextView
+        android:id="@+id/scan_textview_evolutionprix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/black"
+        android:text="Évolution du prix" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,23 +105,23 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginVertical="4dp"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textAlignment="textStart"
         android:hint="Marque "/>
 
     <TextView
         android:id="@+id/scan_edittext_marque"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginVertical="4dp"
         android:layout_gravity="center"
         android:textSize="20sp"
+        android:textStyle="bold"
         android:textColor="@color/black"
         android:text="Information non disponible" />
 
-    <TextView
+    <!--    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -86,52 +130,38 @@
         android:textSize="20sp"
         android:hint="Nom "/>
 
-    <TextView
-        android:id="@+id/scan_edittext_nom"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginVertical="4dp"
-        android:textSize="20sp"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:text="Information non disponible" />
+     <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginVertical="4dp"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:text="Information non disponible" />-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginVertical="4dp"
-        android:textSize="20sp"
-        android:textAlignment="textStart"
-        android:hint="Contenu "/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="15sp"
+            android:textAlignment="textStart"
+            android:hint="Contenu "/>
 
-    <TextView
-        android:id="@+id/scan_edittext_contenu"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginVertical="4dp"
-        android:textSize="20sp"
-        android:text="Information non disponible"
-        android:layout_gravity="center"
-        android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/scan_edittext_contenu"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Information non disponible"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/scan_button_comparaison_prix"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Comparer le prix" />
 
-    <Button
-        android:id="@+id/scan_button_evolution_prix"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Evolution du prix" />
 
-</LinearLayout>
+    </LinearLayout>

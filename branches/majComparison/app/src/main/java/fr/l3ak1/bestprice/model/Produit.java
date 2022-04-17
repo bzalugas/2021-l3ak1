@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import okhttp3.Call;
@@ -75,7 +76,8 @@ public class Produit implements Serializable
 			@Override
 			public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException
 			{
-				if (!response.isSuccessful())
+				String res = response.body().string();
+				if (!response.isSuccessful() || res.equals("false"))
 				{
 					Produit prod = new Produit();
 					prod.setCodeBarres(codeBarres);
@@ -84,7 +86,7 @@ public class Produit implements Serializable
 				else
 				{
 					Gson gson = new Gson();
-					f.complete(gson.fromJson(response.body().string(), Produit.class));
+					f.complete(gson.fromJson(res, Produit.class));
 				}
 			}
 		});
@@ -117,6 +119,30 @@ public class Produit implements Serializable
 		s.append(codeBarres).append("\nmarque : ").append(marque).append("\nnom : ")
 				.append(nom).append("\ncontenu : ").append(quantite).append("\nimage : ").append(imagePath);
 		return s.toString();
+	}
+
+	/**
+	 * Method to sort a list of products compared to a list of prices (the rank of a product will
+	 * correspond to the rank of it price.
+	 * @param produits the list of products
+	 * @param prices the list of prices
+	 */
+	public static void sortProduitsListByPrices(List<Produit> produits, List<Prix> prices)
+	{
+		Produit tmp;
+		for (int i = 0; i < prices.size(); i++)
+		{
+			for (int j = i; j < produits.size(); j++)
+			{
+				if (produits.get(j).getCodeBarres().equals(prices.get(i)))
+				{
+					tmp = produits.get(i);
+					produits.set(i, produits.get(j));
+					produits.set(j, tmp);
+					j = produits.size();
+				}
+			}
+		}
 	}
 
 	public String getCodeBarres(){return codeBarres;}

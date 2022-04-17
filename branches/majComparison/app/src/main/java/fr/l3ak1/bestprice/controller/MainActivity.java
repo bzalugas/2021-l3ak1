@@ -7,25 +7,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import fr.l3ak1.bestprice.R;
 import fr.l3ak1.bestprice.model.DatabaseSQLite;
+import fr.l3ak1.bestprice.model.Prix;
 import fr.l3ak1.bestprice.model.Produit;
-import fr.l3ak1.bestprice.model.ProduitAdapter;
+import fr.l3ak1.bestprice.model.ProduitPrixAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
 	private Button buttonClear;
 	private ListView listView;
 	private List<Produit> produits;
-	private ProduitAdapter adapter;
+	private List<Prix> prices;
+	private ProduitPrixAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +98,12 @@ public class MainActivity extends AppCompatActivity {
 		super.onResume();
 		DatabaseSQLite db = new DatabaseSQLite(MainActivity.this);
 		showProduits(db);
+//		if (prices != null && !prices.isEmpty())
+//		{
+////			Collections.sort(prices);
+//			Produit.sortProduitsListByPrices(produits, prices);
+//			adapter.notifyDataSetChanged();
+//		}
 	}
 
 	private void clearCache()
@@ -114,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
 	private void showProduits(DatabaseSQLite db)
 	{
 		produits = db.getAllProduits();
-		adapter = new ProduitAdapter(this, produits);
+		prices = db.getLastPrices(produits);
+		adapter = new ProduitPrixAdapter(this, produits, prices);
 		listView.setAdapter(adapter);
 	}
 

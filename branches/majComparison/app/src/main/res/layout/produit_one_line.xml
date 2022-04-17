@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/produit_image" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/produit_text_prix"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"

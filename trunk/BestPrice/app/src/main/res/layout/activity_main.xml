@@ -1,103 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:background="@color/background"-->
-<!--    tools:context=".controller.MainActivity">-->
-
-<!--    <Button-->
-<!--        android:id="@+id/main_button_add"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginTop="347dp"-->
-<!--        android:layout_marginBottom="1dp"-->
-<!--        android:text="Add product"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/main_button_show"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="25dp"-->
-<!--        android:layout_marginEnd="57dp"-->
-<!--        android:text="Show DB"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/main_edit_image" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/main_edit_codebarres"-->
-<!--        android:layout_width="333dp"-->
-<!--        android:layout_height="49dp"-->
-<!--        android:layout_marginTop="28dp"-->
-<!--        android:ems="10"-->
-<!--        android:inputType="textPersonName"-->
-<!--        android:hint="code barres"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.507"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/main_edit_marque"-->
-<!--        android:layout_width="333dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_marginStart="1dp"-->
-<!--        android:layout_marginTop="15dp"-->
-<!--        android:ems="10"-->
-<!--        android:inputType="textPersonName"-->
-<!--        android:hint="marque"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/main_edit_codebarres"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/main_edit_codebarres" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/main_edit_nom"-->
-<!--        android:layout_width="333dp"-->
-<!--        android:layout_height="58dp"-->
-<!--        android:ems="10"-->
-<!--        android:inputType="textPersonName"-->
-<!--        android:hint="nom"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/main_edit_marque"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/main_edit_marque" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/main_edit_contenu"-->
-<!--        android:layout_width="334dp"-->
-<!--        android:layout_height="56dp"-->
-<!--        android:layout_marginEnd="1dp"-->
-<!--        android:ems="10"-->
-<!--        android:inputType="textPersonName"-->
-<!--        android:hint="contenu"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/main_edit_nom"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/main_edit_nom" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/main_edit_image"-->
-<!--        android:layout_width="335dp"-->
-<!--        android:layout_height="54dp"-->
-<!--        android:layout_marginTop="12dp"-->
-<!--        android:ems="10"-->
-<!--        android:inputType="textPersonName"-->
-<!--        android:hint="url image"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/main_edit_contenu"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/main_edit_contenu" />-->
-
-<!--    <ListView-->
-<!--        android:id="@+id/main_list_view"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginStart="1dp"-->
-<!--        android:layout_marginEnd="1dp"-->
-<!--        android:layout_marginBottom="1dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/main_button_add" />-->
-
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -151,5 +52,14 @@
         android:layout_marginBottom="110dp"
         android:divider="@color/white"
         android:dividerHeight="1dp" />
+
+    <Button
+        android:id="@+id/main_button_clear"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignStart="@id/main_button_scan"
+        android:layout_alignParentBottom="true"
+        android:text="Effacer l'historique" />
 
 </RelativeLayout>

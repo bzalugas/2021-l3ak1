@@ -9,19 +9,8 @@
     tools:context=".controller.ProduitInfoActivity"
     android:orientation="vertical">
 
-<!--    <EditText-->
-<!--        android:id="@+id/scan_edittext_image_path"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:layout_marginVertical="4dp"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:hint="URL image du produit" />-->
-
-
     <TextView
-        android:id="@+id/scan_edittext_nom"
+        android:id="@+id/scan_text_nom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -41,16 +30,6 @@
         android:adjustViewBounds="true"
         android:background="@drawable/border" />
 
-<!--    <EditText-->
-<!--        android:id="@+id/scan_edittext_codebarres"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:layout_marginVertical="4dp"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:textSize="20dp"-->
-<!--        android:hint="Code-barres du produit" />-->
     <TextView
         android:id="@+id/scan_textview_apartirde"
         android:layout_width="wrap_content"
@@ -58,11 +37,12 @@
         android:layout_marginTop="15dp"
         android:layout_gravity="center"
         android:textSize="12sp"
+        android:textStyle="bold"
         android:textColor="@color/black"
         android:text="à partir de " />
 
     <TextView
-        android:id="@+id/scan_edittext_prix"
+        android:id="@+id/scan_text_prix"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -110,7 +90,7 @@
         android:hint="Marque "/>
 
     <TextView
-        android:id="@+id/scan_edittext_marque"
+        android:id="@+id/scan_text_marque"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
@@ -121,26 +101,6 @@
         android:textColor="@color/black"
         android:text="Information non disponible" />
 
-    <!--    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginVertical="4dp"
-        android:textSize="20sp"
-        android:hint="Nom "/>
-
-     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginVertical="4dp"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
-            android:text="Information non disponible" />-->
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -148,10 +108,10 @@
             android:layout_marginEnd="16dp"
             android:textSize="15sp"
             android:textAlignment="textStart"
-            android:hint="Contenu "/>
+            android:hint="Quantité"/>
 
         <TextView
-            android:id="@+id/scan_edittext_contenu"
+            android:id="@+id/scan_text_quantite"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_gravity="center"
@@ -161,7 +121,4 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp" />
-
-
-
     </LinearLayout>

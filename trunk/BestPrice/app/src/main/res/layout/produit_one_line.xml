@@ -44,12 +44,12 @@
         app:layout_constraintTop_toBottomOf="@+id/produit_text_nom" />
 
     <TextView
-        android:id="@+id/produit_text_contenu"
+        android:id="@+id/produit_text_quantite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
-        android:text="Contenu"
+        android:text="Quantité"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/produit_image"
         app:layout_constraintTop_toBottomOf="@+id/produit_text_nom" />
@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/produit_image" />
 
     <TextView
-        android:id="@+id/produit_prix"
+        android:id="@+id/produit_text_prix"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -78,7 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/produit_image" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/produit_text_euro"
         android:layout_width="10dp"
         android:layout_height="19dp"
         android:layout_marginStart="40dp"

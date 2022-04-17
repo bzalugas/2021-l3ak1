@@ -18,15 +18,17 @@ import fr.l3ak1.bestprice.R;
 /**
  * Class for displaying the Product history in a listView
  */
-public class ProduitAdapter extends BaseAdapter
+public class ProduitPrixAdapter extends BaseAdapter
 {
 	private Activity activity;
 	private List<Produit> produits;
+	private List<Prix> prices;
 
-	public ProduitAdapter(Activity activity, List<Produit> produits)
+	public ProduitPrixAdapter(Activity activity, List<Produit> produits, List<Prix> prices)
 	{
 		this.activity = activity;
 		this.produits = produits;
+		this.prices = prices;
 	}
 
 	@Override
@@ -57,13 +59,20 @@ public class ProduitAdapter extends BaseAdapter
 		ImageView img = oneProduitLine.findViewById(R.id.produit_image);
 		TextView tvMarque = oneProduitLine.findViewById(R.id.produit_text_marque);
 		TextView tvNom = oneProduitLine.findViewById(R.id.produit_text_nom);
-		TextView tvContenu = oneProduitLine.findViewById(R.id.produit_text_contenu);
+		TextView tvQuantite = oneProduitLine.findViewById(R.id.produit_text_quantite);
+		TextView tvPrix = oneProduitLine.findViewById(R.id.produit_text_prix);
+
 		Produit p = this.getItem(i);
 
-		Picasso.get().load(p.getImagePath()).into(img);
-		tvMarque.setText(p.getMarque());
+		if (p.getImagePath() != null && !p.getImagePath().isEmpty())
+			Picasso.get().load(p.getImagePath()).into(img);
+		if (p.getMarque() != null && !p.getMarque().isEmpty())
+			tvMarque.setText(p.getMarque());
 		tvNom.setText(p.getNom());
-		tvContenu.setText(p.getContenu());
+		if (p.getQuantite() != null && !p.getQuantite().isEmpty())
+			tvQuantite.setText(p.getQuantite());
+		if (prices != null && !prices.isEmpty() && prices.get(i) != null)
+			tvPrix.setText(Double.toString(prices.get(i).getPrix()) + " €");
 		return oneProduitLine;
 	}
 }

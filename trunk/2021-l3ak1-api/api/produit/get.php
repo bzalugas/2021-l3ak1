@@ -86,7 +86,11 @@ function getFromBarcodeLookupApi($produit)
 }
 
 if (!isset($_GET['codeBarres']))
+{
+	http_response_code(404);
 	die('Missing barcode');
+}
+
 $produit->codeBarres = $_GET['codeBarres'];
 $res = $produit->find();
 if ($res != false)

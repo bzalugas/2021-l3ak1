@@ -16,7 +16,10 @@ else
 	$data = json_decode(file_get_contents("php://input"), true);
 
 if (!$data['lat'] || !$data['long'] || !$data['nom'])
+{
+	http_response_code(404);
 	die('Missing argument');
+}
 
 $loc->setAttributes($data);
 

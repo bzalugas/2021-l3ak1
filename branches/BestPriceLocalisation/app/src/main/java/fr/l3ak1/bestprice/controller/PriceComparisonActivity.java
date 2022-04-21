@@ -1,9 +1,14 @@
 package fr.l3ak1.bestprice.controller;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -38,6 +43,18 @@ public class PriceComparisonActivity extends AppCompatActivity {
     private double newPrice;
     private Button btnChangePrice;
 
+    ActivityResultLauncher<Intent> startForResult =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>()
+                    {
+                        @Override
+                        public void onActivityResult(ActivityResult result)
+                        {
+                            user_localisation =
+                                    (Localisation) result.getData().getSerializableExtra("LOC");
+                        }
+                    });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +88,10 @@ public class PriceComparisonActivity extends AppCompatActivity {
     private void getLocation()
     {
         try {
-            CompletableFuture<Localisation> f = Localisation.getLocalisationById(1);
-            user_localisation = f.get();
+//            CompletableFuture<Localisation> f = Localisation.getLocalisationById(1);
+//            user_localisation = f.get();
+            Intent localisationIntent = new Intent(this, LocalisationActivity.class);
+            startForResult.launch(localisationIntent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -186,17 +205,4 @@ public class PriceComparisonActivity extends AppCompatActivity {
         }
         return nom;
     }
-//
-//    private void saveLocalProduit()
-//    {
-//        if (!this.produit.minComplete())
-//            return;
-//        DatabaseSQLite db = new DatabaseSQLite(PriceComparisonActivity.this);
-//        Produit prod = db.getProduitByCodeBarres(this.produit.getCodeBarres());
-//        if (prod.minComplete())
-//            return;
-//        boolean success = db.addProduit(this.produit);
-//        if (!success)
-//            Toast.makeText(this, "Error trying to add produit", Toast.LENGTH_SHORT).show();
-//    }
 }

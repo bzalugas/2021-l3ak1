@@ -4,7 +4,6 @@ header('Content-Type: application/json');
 
 require_once '../../models/Localisation.php';
 require_once '../../config/Database.php';
-require_once '../../vendor/autoload.php';
 
 $db = (new Database())->getConnection();
 $loc = new Localisation($db);

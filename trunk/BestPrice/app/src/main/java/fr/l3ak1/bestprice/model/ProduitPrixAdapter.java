@@ -16,31 +16,31 @@ import java.util.List;
 import fr.l3ak1.bestprice.R;
 
 /**
- * Class for displaying the Product history in a listView
+ * Class to display the Product history in a listView
  */
 public class ProduitPrixAdapter extends BaseAdapter
 {
 	private Activity activity;
-	private List<Produit> produits;
+	private List<Produit> produitList;
 	private List<Prix> prices;
 
 	public ProduitPrixAdapter(Activity activity, List<Produit> produits, List<Prix> prices)
 	{
 		this.activity = activity;
-		this.produits = produits;
+		this.produitList = produits;
 		this.prices = prices;
 	}
 
 	@Override
 	public int getCount()
 	{
-		return produits.size();
+		return produitList.size();
 	}
 
 	@Override
 	public Produit getItem(int i)
 	{
-		return produits.get(i);
+		return produitList.get(i);
 	}
 
 	@Override

@@ -1,9 +1,14 @@
 package fr.l3ak1.bestprice.controller;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -38,6 +43,26 @@ public class PriceComparisonActivity extends AppCompatActivity {
     private double newPrice;
     private Button btnChangePrice;
 
+    ActivityResultLauncher<Intent> startForResult =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>()
+                    {
+                        @Override
+                        public void onActivityResult(ActivityResult result)
+                        {
+                            if (result.getData() == null)
+                            {
+                                Toast.makeText(PriceComparisonActivity.this, "error trying to get" +
+                                        " location", Toast.LENGTH_LONG).show();
+//                                getLocalisation();
+                            }
+                            else
+                                user_localisation =
+                                    (Localisation) result.getData().getSerializableExtra(
+                                            "LOCALISATION");
+                        }
+                    });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +73,8 @@ public class PriceComparisonActivity extends AppCompatActivity {
 
         produit = (Produit)getIntent().getSerializableExtra("produit");
 
-        getLocation();
+//        getLocation();
+        getLocalisation();
         getPrices();
 
         btnChangePrice.setOnClickListener(new View.OnClickListener()
@@ -68,11 +94,13 @@ public class PriceComparisonActivity extends AppCompatActivity {
         displayPrices();
     }
 
-    private void getLocation()
+    private void getLocalisation()
     {
         try {
-            CompletableFuture<Localisation> f = Localisation.getLocalisationById(1);
-            user_localisation = f.get();
+//            CompletableFuture<Localisation> f = Localisation.getLocalisationById(1);
+//            user_localisation = f.get();
+            Intent localisationIntent = new Intent(this, LocalisationActivity.class);
+            startForResult.launch(localisationIntent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,7 +113,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
         boolean success;
         DatabaseSQLite db = new DatabaseSQLite(PriceComparisonActivity.this);
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Prix tmpPrix = new Prix(produit.getCodeBarres(), newPrice, format.format(new Date()),
                 user_localisation.getId(), user_localisation.getNom());
         try {
@@ -165,7 +193,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
             this.prix = f.get();
             if (!this.prix.isEmpty())
                 for (Prix p : prix)
-                    p.setLocalisation_nom(getLocalisation(p.getLocalisation_id()));
+                    p.setLocalisation_nom(getLocalisationById(p.getLocalisation_id()));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -173,30 +201,20 @@ public class PriceComparisonActivity extends AppCompatActivity {
             askNewPrice();
     }
 
-    private String getLocalisation(long id)
+    private String getLocalisationById(long id)
     {
         String nom = "";
         try{
             CompletableFuture<Localisation> f = Localisation.getLocalisationById(id);
             Localisation tmpLoc = f.get();
-            nom = tmpLoc.getNom();
-            this.localisationsPrix.add(tmpLoc);
+            if (tmpLoc != null)
+            {
+                nom = tmpLoc.getNom();
+                this.localisationsPrix.add(tmpLoc);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return nom;
     }
-//
-//    private void saveLocalProduit()
-//    {
-//        if (!this.produit.minComplete())
-//            return;
-//        DatabaseSQLite db = new DatabaseSQLite(PriceComparisonActivity.this);
-//        Produit prod = db.getProduitByCodeBarres(this.produit.getCodeBarres());
-//        if (prod.minComplete())
-//            return;
-//        boolean success = db.addProduit(this.produit);
-//        if (!success)
-//            Toast.makeText(this, "Error trying to add produit", Toast.LENGTH_SHORT).show();
-//    }
 }

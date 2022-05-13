@@ -4,9 +4,15 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyBOqVojaNSb-Xe1u6_8aXg1HaClKiozUdw" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +21,9 @@
         android:roundIcon="@mipmap/icon_bestprice_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BestPrice">
+        <activity
+            android:name=".controller.LocalisationActivity"
+            android:exported="false" />
         <activity
             android:name=".controller.PriceEvolutionActivity"
             android:exported="false" />

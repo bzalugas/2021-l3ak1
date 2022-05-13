@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import fr.l3ak1.bestprice.R;
 
@@ -52,8 +50,8 @@ public class LocalisationAdapter extends BaseAdapter
 		View oneLocalisationLine;
 		LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		oneLocalisationLine = inflater.inflate(R.layout.localisation_one_line, parent, false);
-		TextView tvNom = oneLocalisationLine.findViewById(R.id.loc_line_text_nom);
-		TextView tvDist = oneLocalisationLine.findViewById(R.id.loc_line_text_distance);
+		TextView tvNom = oneLocalisationLine.findViewById(R.id.loc_line_tv_nom);
+		TextView tvDist = oneLocalisationLine.findViewById(R.id.loc_line_tv_distance);
 
 		Localisation l = this.getItem(i);
 

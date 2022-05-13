@@ -10,44 +10,82 @@
         android:id="@+id/divider3"
         android:layout_width="409dp"
         android:layout_height="1dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/comparison_line_tv_enseigne" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/comparison_line_tv_enseigne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="Nom de l'enseigne"
+        android:textSize="17sp"
         android:textStyle="bold"
-        android:textSize="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/comparison_line_tv_setrouve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="212dp"
-        android:layout_marginTop="24dp"
-        android:text="prix"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="52dp"
+        android:text="Ce magasin se trouve à : "
+        android:textSize="15sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/comparison_line_tv_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="distance "
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:textColor="@color/button"
+        app:layout_constraintStart_toEndOf="@+id/comparison_line_tv_setrouve"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/comparison_line_tv_km"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="km"
+        android:textSize="15sp"
+        android:textColor="@color/button"
+        android:textStyle="italic"
+        app:layout_constraintStart_toEndOf="@+id/comparison_line_tv_distance"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/comparison_line_tv_prix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="196dp"
+        android:layout_marginTop="16dp"
+        android:text="prix "
         android:textColor="@color/orange"
-        android:textSize="15dp"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/comparison_line_tv_enseigne"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="5dp"
         android:text="€"
-        android:textSize="15dp"
         android:textColor="@color/orange"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/comparison_line_tv_prix"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

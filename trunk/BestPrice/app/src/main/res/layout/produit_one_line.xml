@@ -28,6 +28,7 @@
         android:singleLine="false"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/bleu"
         app:layout_constraintStart_toEndOf="@+id/produit_image"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,6 +41,7 @@
         android:text="Marque"
         android:textSize="18sp"
         android:textStyle="italic"
+        android:textColor="@color/button"
         app:layout_constraintStart_toEndOf="@+id/produit_image"
         app:layout_constraintTop_toBottomOf="@+id/produit_text_nom" />
 
@@ -81,7 +83,7 @@
         android:id="@+id/produit_text_euro"
         android:layout_width="10dp"
         android:layout_height="19dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
         android:text="€"
         android:textColor="@color/orange"

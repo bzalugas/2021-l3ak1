@@ -10,5 +10,7 @@
     <color name="blue">#009688</color>
     <color name="button">#009688</color>
     <color name="background">#F1FCFF</color>
-    <color name="orange">#FF9F54</color>
+    <color name="orange">#E09E50</color>
+    <color name="bleu">#2D3E4E</color>
+
 </resources>

@@ -154,7 +154,7 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	private void showStores()
 	{
 		try {
-			CompletableFuture<List<Localisation>> f = user_location.getNearbyLocations(100);
+			CompletableFuture<List<Localisation>> f = user_location.getNearbyLocations(500);
 			this.localisationList = f.get();
 			if (this.localisationList != null && !this.localisationList.isEmpty())
 			{

@@ -206,7 +206,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		String query =
 				"SELECT * FROM " + TABLE_PRIX +
 						" WHERE " + COL_PRIX_CODE_BARRES + " = ?" +
-						" ORDER BY " + COL_PRIX_ID + " DESC" +
+						" ORDER BY " + COL_DATE + " DESC" +
 						" LIMIT 1";
 		String[] params = new String[1];
 		SQLiteDatabase db = this.getReadableDatabase();

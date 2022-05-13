@@ -71,8 +71,22 @@ public class ProduitPrixAdapter extends BaseAdapter
 		tvNom.setText(p.getNom());
 		if (p.getQuantite() != null && !p.getQuantite().isEmpty())
 			tvQuantite.setText(p.getQuantite());
-		if (prices != null && !prices.isEmpty() && prices.get(i) != null)
-			tvPrix.setText(Double.toString(prices.get(i).getPrix()) + " €");
+		if (prices != null && !prices.isEmpty())
+		{
+			double prix = findPrice(p);
+			if (prix != 0)
+				tvPrix.setText(Double.toString(prix));
+//			tvPrix.setText(Double.toString(prices.get(i).getPrix()) + " €");
+		}
+
 		return oneProduitLine;
+	}
+
+	private double findPrice(Produit p)
+	{
+		for (Prix prix : this.prices)
+			if (prix.getCodeBarres().equals(p.getCodeBarres()))
+				return prix.getPrix();
+		return 0;
 	}
 }

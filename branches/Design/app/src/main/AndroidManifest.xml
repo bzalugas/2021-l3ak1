@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fr.l3ak1.bestprice">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyBOqVojaNSb-Xe1u6_8aXg1HaClKiozUdw" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/icon_bestprice"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/icon_bestprice_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.BestPrice">
+        <activity
+            android:name=".controller.LocalisationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.PriceEvolutionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.PriceComparisonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.ProduitInfoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.BestPrice" />
+        <activity
+            android:name=".controller.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".controller.Capture"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+    </application>
+
+</manifest>

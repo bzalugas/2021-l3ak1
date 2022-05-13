@@ -11,20 +11,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 import fr.l3ak1.bestprice.R;
@@ -35,7 +31,7 @@ import fr.l3ak1.bestprice.model.Produit;
 
 public class PriceComparisonActivity extends AppCompatActivity {
 
-    private ArrayList<Prix> prix;
+    private ArrayList<Prix> prixList;
     private Produit produit;
     private Localisation user_localisation;
     private ArrayList<Localisation> localisationsPrix;
@@ -70,7 +66,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
 
         produit = (Produit)getIntent().getSerializableExtra("produit");
 
-        getLocalisation();
+        getLocation();
         getPrices();
 
         btnChangePrice.setOnClickListener(new View.OnClickListener()
@@ -78,6 +74,8 @@ public class PriceComparisonActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
+                if (user_localisation.getId() == 0)
+                    getStore();
                 askNewPrice();
             }
         });
@@ -90,10 +88,22 @@ public class PriceComparisonActivity extends AppCompatActivity {
         displayPrices();
     }
 
-    private void getLocalisation()
+    private void getLocation()
     {
         try {
             Intent localisationIntent = new Intent(this, LocalisationActivity.class);
+            localisationIntent.putExtra("getStore", false);
+            startForResult.launch(localisationIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getStore()
+    {
+        try {
+            Intent localisationIntent = new Intent(this, LocalisationActivity.class);
+            localisationIntent.putExtra("getStore", true);
             startForResult.launch(localisationIntent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,7 +144,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
                 });
             }
             db.addPrix(tmpPrix);
-            this.prix.add(tmpPrix);
+            this.prixList.add(tmpPrix);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -173,39 +183,44 @@ public class PriceComparisonActivity extends AppCompatActivity {
     {
         ArrayAdapter<Prix> prixAdapter;
         prixAdapter = new ArrayAdapter<Prix>(this,
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, prix);
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, prixList);
         listViewComparison.setAdapter(prixAdapter);
     }
 
     private void getPrices()
     {
+        /*Modifier pour ne prendre que les derniers prix des 5 magasins les plus proches*/
         try {
             CompletableFuture<ArrayList<Prix>> f = Prix.getAllPrix(produit.getCodeBarres());
-            this.prix = f.get();
-            if (!this.prix.isEmpty())
-                for (Prix p : prix)
+            this.prixList = f.get();
+            if (!this.prixList.isEmpty())
+                for (Prix p : prixList)
                     p.setLocalisation_nom(getLocalisationById(p.getLocalisation_id()));
         } catch (Exception e){
             e.printStackTrace();
         }
-        if (this.prix.isEmpty())
+        if (this.prixList.isEmpty())
             askNewPrice();
     }
 
     private String getLocalisationById(long id)
     {
         String nom = "";
-        try{
-            CompletableFuture<Localisation> f = Localisation.getLocalisationById(id);
-            Localisation tmpLoc = f.get();
-            if (tmpLoc != null)
-            {
-                nom = tmpLoc.getNom();
-                this.localisationsPrix.add(tmpLoc);
+        if (id != 0)
+        {
+            try{
+                CompletableFuture<Localisation> f = Localisation.getLocalisationById(id);
+                Localisation tmpLoc = f.get();
+                if (tmpLoc != null)
+                {
+                    nom = tmpLoc.getNom();
+//                    this.localisationsPrix.add(tmpLoc);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            return nom;
         }
-        return nom;
+        return null;
     }
 }

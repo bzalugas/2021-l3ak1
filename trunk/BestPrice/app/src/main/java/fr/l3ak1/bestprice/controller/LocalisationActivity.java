@@ -46,6 +46,7 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	private Localisation user_location;
 	private List<Localisation> localisationList;
 	private LocalisationAdapter adapter;
+	private boolean getStore;
 
 
 	@Override
@@ -57,6 +58,8 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		tvMagasins = findViewById(R.id.loc_text_magasin);
 		lvMagasins = findViewById(R.id.loc_list_view);
 		btnAdd = findViewById(R.id.loc_button_add);
+
+		getStore = getIntent().getBooleanExtra("getStore", false);
 
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		if(Build.VERSION.SDK_INT>=23){
@@ -89,9 +92,9 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	protected void onResume()
 	{
 		super.onResume();
-		if (this.localisationList != null && !this.localisationList.isEmpty())
+		if (getStore && this.localisationList != null && !this.localisationList.isEmpty())
 			showStores();
-		else if (this.latitude != 0 && this.longitude != 0)
+		else if (getStore && this.latitude != 0 && this.longitude != 0)
 		{
 			this.user_location = new Localisation(this.latitude, this.longitude);
 			showStores();
@@ -177,7 +180,10 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		this.longitude = location.getLongitude();
 		this.user_location = new Localisation(this.latitude, this.longitude);
 		locationManager.removeUpdates(this);
-		showStores();
+		if (getStore)
+			showStores();
+		else
+			sendLocationAndFinish();
 	}
 
 	@Override

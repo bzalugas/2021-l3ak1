@@ -7,14 +7,32 @@
     android:background="@color/background"
     tools:context=".controller.PriceComparisonActivity">
 
+    <TextView
+        android:id="@+id/loc_text_magasin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="TROUVES LE MEILLEUR PRIX !"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ListView
         android:id="@+id/comparison_listview_enseigne"
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="377dp"
+        android:layout_height="489dp"
+        android:layout_below="@+id/comparison_button_change_price"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="-620dp"
+        android:background="@drawable/border"
         android:divider="@color/white"
-        android:dividerHeight="1dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comparison_button_change_price" />
 
     <Button
         android:id="@+id/comparison_button_change_price"
@@ -22,17 +40,55 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="35dp"
+        android:backgroundTint="@color/blue"
+        android:layout_marginBottom="42dp"
         android:text="@string/button_add_price" />
 
     <Button
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_above="@+id/comparison_listview_enseigne"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/img_filtre"
-        android:layout_marginTop="10dp"
-        />
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="640dp"
+        android:background="@drawable/img_gps" />
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/comparison_listview_enseigne"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="640dp"
+        android:background="@drawable/img_euro" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="43dp"
+        android:text="tri par prix"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:textColor="@color/orange"/>
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="63dp"
+        android:textStyle="bold"
+        android:text="tri par distance"
+        android:textSize="10sp"
+        android:textColor="@color/orange"/>
 
 
 </RelativeLayout>

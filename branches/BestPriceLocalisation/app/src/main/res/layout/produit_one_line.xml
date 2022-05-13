@@ -28,6 +28,7 @@
         android:singleLine="false"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/bleu"
         app:layout_constraintStart_toEndOf="@+id/produit_image"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,6 +41,7 @@
         android:text="Marque"
         android:textSize="18sp"
         android:textStyle="italic"
+        android:textColor="@color/button"
         app:layout_constraintStart_toEndOf="@+id/produit_image"
         app:layout_constraintTop_toBottomOf="@+id/produit_text_nom" />
 

@@ -94,6 +94,8 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		else if (this.latitude != 0 && this.longitude != 0)
 		{
 			this.user_location = new Localisation(this.latitude, this.longitude);
+			Log.d("LogLocActivity",
+					"on Resume : lat = " + Double.toString(latitude) + ", long = " + Double.toString(longitude));
 			showStores();
 		}
 		else
@@ -176,6 +178,8 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		this.latitude = location.getLatitude();
 		this.longitude = location.getLongitude();
 		this.user_location = new Localisation(this.latitude, this.longitude);
+		Log.d("LogLocActivity",
+				"lat = " + Double.toString(latitude) + ", long = " + Double.toString(longitude));
 		locationManager.removeUpdates(this);
 		showStores();
 	}

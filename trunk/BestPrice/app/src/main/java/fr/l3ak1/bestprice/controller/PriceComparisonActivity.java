@@ -51,11 +51,8 @@ public class PriceComparisonActivity extends AppCompatActivity {
                         public void onActivityResult(ActivityResult result)
                         {
                             if (result.getData() == null)
-                            {
                                 Toast.makeText(PriceComparisonActivity.this, "error trying to get" +
                                         " location", Toast.LENGTH_LONG).show();
-//                                getLocalisation();
-                            }
                             else
                                 user_localisation =
                                     (Localisation) result.getData().getSerializableExtra(
@@ -73,7 +70,6 @@ public class PriceComparisonActivity extends AppCompatActivity {
 
         produit = (Produit)getIntent().getSerializableExtra("produit");
 
-//        getLocation();
         getLocalisation();
         getPrices();
 
@@ -97,22 +93,17 @@ public class PriceComparisonActivity extends AppCompatActivity {
     private void getLocalisation()
     {
         try {
-//            CompletableFuture<Localisation> f = Localisation.getLocalisationById(1);
-//            user_localisation = f.get();
             Intent localisationIntent = new Intent(this, LocalisationActivity.class);
             startForResult.launch(localisationIntent);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        //demander magasin de l'utilisateur a partir de la localisation
     }
 
     private void createPrix()
     {
         boolean success;
         DatabaseSQLite db = new DatabaseSQLite(PriceComparisonActivity.this);
-
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Prix tmpPrix = new Prix(produit.getCodeBarres(), newPrice, format.format(new Date()),
                 user_localisation.getId(), user_localisation.getNom());

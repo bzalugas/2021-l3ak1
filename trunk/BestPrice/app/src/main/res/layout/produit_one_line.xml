@@ -14,7 +14,7 @@
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/img_pannier" />
+        app:srcCompat="@drawable/img_corrupted_pic" />
 
     <TextView
         android:id="@+id/produit_text_nom"

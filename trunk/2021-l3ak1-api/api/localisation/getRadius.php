@@ -18,17 +18,21 @@ $radius = $_GET['radius'];
 $loc->lat = $_GET['latitude'];
 $loc->long = $_GET['longitude'];
 
-if ($loc->findByLatLong() == false)
-{
-	http_response_code(404);
-	die('Could not find location');
-}
+// if ($loc->findByLatLong() == false)
+// {
+// 	http_response_code(404);
+// 	die('Could not find location');
+// }
 
 $locs = $loc->findAllByRadius($radius);
 
+$metric = 'm';
+if (isset($_GET['metric']))
+	$metric = $_GET['metric'];
+
 foreach($locs as &$l)
 {
-	$l['distance'] = $loc->distance($l['latitude'], $l['longitude'], 'm');
+	$l['distance'] = $loc->distance($l['latitude'], $l['longitude'], $metric);
 }
 
 echo json_encode($locs);

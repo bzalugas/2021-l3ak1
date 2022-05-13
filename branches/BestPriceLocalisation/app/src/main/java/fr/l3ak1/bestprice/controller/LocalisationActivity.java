@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -15,25 +14,19 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
-import fr.l3ak1.bestprice.databinding.ActivityLocalisationBinding;
 
 import fr.l3ak1.bestprice.R;
 import fr.l3ak1.bestprice.model.Localisation;
@@ -87,30 +80,52 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 			@Override
 			public void onClick(View view)
 			{
-				AlertDialog.Builder builder = new AlertDialog.Builder(LocalisationActivity.this);
-				builder.setTitle("Veuillez entrer le nom du magasin (ex : Super U Montreuil)");
-
-				final EditText input = new EditText(LocalisationActivity.this);
-				builder.setView(input);
-				builder.setPositiveButton("Entrer", new DialogInterface.OnClickListener()
-				{
-					@Override
-					public void onClick(DialogInterface dialogInterface, int i)
-					{
-						createLocation(input.getText().toString());
-					}
-				});
-				builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener()
-				{
-					@Override
-					public void onClick(DialogInterface dialogInterface, int i)
-					{
-						dialogInterface.cancel();
-					}
-				});
-				builder.show();
+				askStore();
 			}
 		});
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		if (this.localisationList != null && !this.localisationList.isEmpty())
+			showStores();
+		else if (this.latitude != 0 && this.longitude != 0)
+		{
+			this.user_location = new Localisation(this.latitude, this.longitude);
+			showStores();
+		}
+		else
+			Log.d("LogLocalisationActivity", "onResume: !(localisationList != null && " +
+					"!localisationList.isEmpty()");
+	}
+
+	private void askStore()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(LocalisationActivity.this);
+		builder.setTitle("Veuillez entrer le nom du magasin (ex : Super U Montreuil)");
+
+		final EditText input = new EditText(LocalisationActivity.this);
+		builder.setView(input);
+		builder.setPositiveButton("Entrer", new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i)
+			{
+				createLocation(input.getText().toString());
+				dialogInterface.cancel();
+			}
+		});
+		builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i)
+			{
+				dialogInterface.cancel();
+			}
+		});
+		builder.show();
 	}
 
 	private void createLocation(String nom)
@@ -118,7 +133,11 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		this.user_location.setNom(nom);
 		try{
 			CompletableFuture<Boolean> f = this.user_location.insert();
-			f.get();
+			boolean success = f.get();
+			if (success)
+				showStores();
+			else
+				Toast.makeText(this, "Error trying to save the current store", Toast.LENGTH_LONG).show();
 		} catch(Exception e ){
 			e.printStackTrace();
 		}
@@ -137,8 +156,14 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		try {
 			CompletableFuture<List<Localisation>> f = user_location.getNearbyLocations(100);
 			this.localisationList = f.get();
-			this.adapter = new LocalisationAdapter(this, this.localisationList);
-			lvMagasins.setAdapter(adapter);
+			if (this.localisationList != null && !this.localisationList.isEmpty())
+			{
+				this.adapter = new LocalisationAdapter(this, this.localisationList);
+				lvMagasins.setAdapter(adapter);
+			}
+			else
+				askStore();
+
 		}
 		catch (Exception e){
 			e.printStackTrace();
@@ -151,12 +176,14 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		this.latitude = location.getLatitude();
 		this.longitude = location.getLongitude();
 		this.user_location = new Localisation(this.latitude, this.longitude);
-//		Intent intent = new Intent();
-//		intent.putExtra("LAT", this.latitude);
-//		intent.putExtra("LONG", this.longitude);
-//		setResult(RESULT_OK, intent);
+		locationManager.removeUpdates(this);
 		showStores();
-//		finish();
+	}
+
+	@Override
+	public void onStatusChanged(String s, int i, Bundle b)
+	{
+
 	}
 
 	@Override

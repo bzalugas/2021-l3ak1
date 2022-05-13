@@ -1,5 +1,7 @@
 package fr.l3ak1.bestprice.model;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -10,6 +12,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -32,7 +35,8 @@ public class Localisation implements Serializable
 	private double latitude;
 	private double longitude;
 	private String nom;
-	private transient double distance;
+	/*the distance is for local use only*/
+	private double distance;
 	private static final transient OkHttpClient client = new OkHttpClient();
 
 	public Localisation()
@@ -46,31 +50,32 @@ public class Localisation implements Serializable
 
 	public Localisation(double latitude, double longitude)
 	{
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.latitude = (double) (Math.round(latitude*1000000.0)/1000000.0);
+		this.longitude = (double) (Math.round(longitude*1000000.0)/1000000.0);
 	}
 
 	public Localisation(long id, double latitude, double longitude, String nom, double distance)
 	{
 		this.id = id;
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.latitude = (double) (Math.round(latitude*1000000.0)/1000000.0);
+		this.longitude = (double) (Math.round(longitude*1000000.0)/1000000.0);
 		this.nom = nom;
-		this.distance = distance;
+		this.distance = (double) (Math.round(distance*10.0)/10.0);
+		Log.d("LogLocalisation", "dans constructeur");
 	}
 
 	public Localisation(long id, double latitude, double longitude, String nom)
 	{
 		this.id = id;
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.latitude = (double) (Math.round(latitude*1000000.0)/1000000.0);
+		this.longitude = (double) (Math.round(longitude*1000000.0)/1000000.0);
 		this.nom = nom;
 	}
 
 	public Localisation(double latitude, double longitude, String nom)
 	{
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.latitude = (double) (Math.round(latitude*1000000.0)/1000000.0);
+		this.longitude = (double) (Math.round(longitude*1000000.0)/1000000.0);
 		this.nom = nom;
 	}
 
@@ -176,8 +181,9 @@ public class Localisation implements Serializable
 			{
 				if (!response.isSuccessful())
 				{
-					List<Localisation> loc = new ArrayList<>();
-					loc.add(new Localisation());
+//					List<Localisation> loc = new ArrayList<>();
+//					loc.add(new Localisation());
+					List<Localisation> loc = null;
 					f.complete(loc);
 				}
 				else
@@ -256,7 +262,7 @@ public class Localisation implements Serializable
 	 */
 	public void setLatitude(double latitude)
 	{
-		this.latitude = latitude;
+		this.latitude = (double) (Math.round(latitude*1000000.0)/1000000.0);
 	}
 
 	/**
@@ -274,7 +280,7 @@ public class Localisation implements Serializable
 	 */
 	public void setLongitude(double longitude)
 	{
-		this.longitude = longitude;
+		this.longitude = (double) (Math.round(longitude*1000000.0)/1000000.0);
 	}
 
 	/**
@@ -302,6 +308,7 @@ public class Localisation implements Serializable
 
 	public void setDistance(double distance)
 	{
-		this.distance = distance;
+		this.distance = (double) (Math.round(distance*10.0)/10.0);
+		Log.d("LogLocalisation", "dans setDistance");
 	}
 }

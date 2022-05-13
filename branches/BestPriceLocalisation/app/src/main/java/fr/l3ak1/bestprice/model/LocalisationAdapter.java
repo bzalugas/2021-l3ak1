@@ -59,8 +59,8 @@ public class LocalisationAdapter extends BaseAdapter
 
 		if (l.getNom() != null && !l.getNom().isEmpty())
 			tvNom.setText(l.getNom());
-		if (l.getDistance() != 0)
-			tvDist.setText(Double.toString(l.getDistance()));
+//		if (l.getDistance() != 0)
+			tvDist.setText(Double.toString((double)(Math.round(l.getDistance()*10.0)/10.0)));
 
 		return oneLocalisationLine;
 	}

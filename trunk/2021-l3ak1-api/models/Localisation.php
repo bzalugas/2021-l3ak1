@@ -19,8 +19,8 @@ class Localisation
 	public function setAttributes($infos = [])
 	{
 		$this->id = $infos['id'] ?? null;
-		$this->lat = $infos['lat'];
-		$this->long = $infos['long'];
+		$this->lat = $infos['latitude'];
+		$this->long = $infos['longitude'];
 		$this->nom = $infos['nom'];
 	}
 

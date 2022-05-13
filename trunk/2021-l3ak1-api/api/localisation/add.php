@@ -10,12 +10,12 @@ require_once '../../models/Localisation.php';
 $db = (new Database())->getConnection();
 $loc = new Localisation($db);
 
-if (isset($_POST['lat']))
+if (isset($_POST['latitude']))
 	$data = $_POST;
 else
 	$data = json_decode(file_get_contents("php://input"), true);
 
-if (!$data['lat'] || !$data['long'] || !$data['nom'])
+if (!isset($data['latitude']) || !isset($data['longitude']) || !isset($data['nom']))
 {
 	http_response_code(404);
 	die('Missing argument');

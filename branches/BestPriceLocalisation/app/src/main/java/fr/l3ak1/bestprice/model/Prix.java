@@ -189,8 +189,8 @@ public class Prix implements Serializable, Comparable<Prix>
 		Date date = null;
 		Date dateOther = null;
 		try {
-			date = new SimpleDateFormat("yyyy-MM-dd").parse(this.getDate());
-			dateOther = new SimpleDateFormat("yyyy-MM-dd").parse(other.getDate());
+			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(this.getDate());
+			dateOther = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(other.getDate());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

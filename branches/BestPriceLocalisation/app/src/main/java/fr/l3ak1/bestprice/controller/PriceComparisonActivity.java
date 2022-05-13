@@ -50,8 +50,16 @@ public class PriceComparisonActivity extends AppCompatActivity {
                         @Override
                         public void onActivityResult(ActivityResult result)
                         {
-                            user_localisation =
-                                    (Localisation) result.getData().getSerializableExtra("LOC");
+                            if (result.getData() == null)
+                            {
+                                Toast.makeText(PriceComparisonActivity.this, "error trying to get" +
+                                        " location", Toast.LENGTH_LONG).show();
+//                                getLocalisation();
+                            }
+                            else
+                                user_localisation =
+                                    (Localisation) result.getData().getSerializableExtra(
+                                            "LOCALISATION");
                         }
                     });
 
@@ -65,7 +73,8 @@ public class PriceComparisonActivity extends AppCompatActivity {
 
         produit = (Produit)getIntent().getSerializableExtra("produit");
 
-        getLocation();
+//        getLocation();
+        getLocalisation();
         getPrices();
 
         btnChangePrice.setOnClickListener(new View.OnClickListener()
@@ -85,7 +94,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
         displayPrices();
     }
 
-    private void getLocation()
+    private void getLocalisation()
     {
         try {
 //            CompletableFuture<Localisation> f = Localisation.getLocalisationById(1);
@@ -104,7 +113,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
         boolean success;
         DatabaseSQLite db = new DatabaseSQLite(PriceComparisonActivity.this);
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Prix tmpPrix = new Prix(produit.getCodeBarres(), newPrice, format.format(new Date()),
                 user_localisation.getId(), user_localisation.getNom());
         try {
@@ -184,7 +193,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
             this.prix = f.get();
             if (!this.prix.isEmpty())
                 for (Prix p : prix)
-                    p.setLocalisation_nom(getLocalisation(p.getLocalisation_id()));
+                    p.setLocalisation_nom(getLocalisationById(p.getLocalisation_id()));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -192,14 +201,17 @@ public class PriceComparisonActivity extends AppCompatActivity {
             askNewPrice();
     }
 
-    private String getLocalisation(long id)
+    private String getLocalisationById(long id)
     {
         String nom = "";
         try{
             CompletableFuture<Localisation> f = Localisation.getLocalisationById(id);
             Localisation tmpLoc = f.get();
-            nom = tmpLoc.getNom();
-            this.localisationsPrix.add(tmpLoc);
+            if (tmpLoc != null)
+            {
+                nom = tmpLoc.getNom();
+                this.localisationsPrix.add(tmpLoc);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

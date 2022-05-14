@@ -88,6 +88,7 @@ public class Produit implements Serializable
 					Gson gson = new Gson();
 					f.complete(gson.fromJson(res, Produit.class));
 				}
+				response.body().close();
 			}
 		});
 		return f;

@@ -117,21 +117,19 @@ public class Prix implements Serializable, Comparable<Prix>
 			{
 				if (!response.isSuccessful())
 				{
-					switch (response.code())
-					{
-						default:
-//							throw new IOException("Error in request, error code : " + response.code());
-							ArrayList<Prix> prix = new ArrayList<>();
-							prix.add(new Prix());
-							prix.get(1).setCodeBarres(codeBarres);
-							f.complete(prix);
-					}
+					ArrayList<Prix> prix = new ArrayList<>();
+					prix.add(new Prix());
+					prix.get(1).setCodeBarres(codeBarres);
+					f.complete(prix);
 				}
-				Gson gson = new Gson();
-				Type type = new TypeToken<ArrayList<Prix>>(){}.getType();
-//				ArrayList<Prix> prix = new ArrayList<>();
-				ArrayList<Prix> prix = gson.fromJson(response.body().string(), type);
-				f.complete(prix);
+				else
+				{
+					Gson gson = new Gson();
+					Type type = new TypeToken<ArrayList<Prix>>(){}.getType();
+					ArrayList<Prix> prix = gson.fromJson(response.body().string(), type);
+					f.complete(prix);
+				}
+				response.body().close();
 			}
 		});
 		return f;
@@ -149,7 +147,6 @@ public class Prix implements Serializable, Comparable<Prix>
 		Gson gson = new Gson();
 		RequestBody body;
 		Request postRequest;
-//		gson.toJson(this);
 		body = RequestBody.create(
 				gson.toJson(this),
 				MediaType.parse("application/json")
@@ -175,6 +172,7 @@ public class Prix implements Serializable, Comparable<Prix>
 					f.complete(true);
 				else
 					f.complete(false);
+				response.body().close();
 			}
 		});
 		return f;
@@ -219,6 +217,7 @@ public class Prix implements Serializable, Comparable<Prix>
 					List<Prix> prix = gson.fromJson(response.body().string(), type);
 					f.complete(prix);
 				}
+				response.body().close();
 			}
 		});
 		return f;
@@ -258,6 +257,7 @@ public class Prix implements Serializable, Comparable<Prix>
 					Prix prix = gson.fromJson(response.body().string(), Prix.class);
 					f.complete(prix);
 				}
+				response.body().close();
 			}
 		});
 		return f;

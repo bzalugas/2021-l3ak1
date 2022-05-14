@@ -94,7 +94,8 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		cv.put(COL_LOCALISATION_NOM, loc.getNom());
 
 		long insert = db.insert(TABLE_LOCALISATION, null, cv);
-		return insert == -1 ? false : true;
+		db.close();
+		return insert != -1;
 	}
 
 	/**
@@ -132,7 +133,13 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		String query = "DELETE FROM " + TABLE_LOCALISATION;
 		Cursor cursor = db.rawQuery(query, null);
 		if (cursor.moveToFirst())
+		{
+			cursor.close();
+			db.close();
 			return true;
+		}
+		cursor.close();
+		db.close();
 		return false;
 	}
 
@@ -154,7 +161,8 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		cv.put(COL_PRIX_LOCALISATION_ID, prix.getLocalisation_id());
 
 		long insert = db.insert(TABLE_PRIX, null, cv);
-		return insert == -1 ? false : true;
+		db.close();
+		return insert != -1;
 	}
 
 	/**
@@ -188,7 +196,13 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		String query = "DELETE FROM " + TABLE_PRIX;
 		Cursor cursor = db.rawQuery(query, null);
 		if (cursor.moveToFirst())
+		{
+			cursor.close();
+			db.close();
 			return true;
+		}
+		cursor.close();
+		db.close();
 		return false;
 	}
 
@@ -249,6 +263,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		cv.put(COL_IMAGE_PATH, produit.getImagePath());
 
 		long insert = db.insert(TABLE_PRODUIT, null, cv);
+		db.close();
 		if (insert == -1)
 			return false;
 		return true;
@@ -306,7 +321,13 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		String query = "DELETE FROM " + TABLE_PRODUIT;
 		Cursor cursor = db.rawQuery(query, null);
 		if (cursor.moveToFirst())
+		{
+			cursor.close();
+			db.close();
 			return true;
+		}
+		cursor.close();
+		db.close();
 		return false;
 	}
 

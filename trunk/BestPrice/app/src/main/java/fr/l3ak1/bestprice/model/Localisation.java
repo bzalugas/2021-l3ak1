@@ -114,6 +114,7 @@ public class Localisation implements Serializable, Comparable<Localisation>
 					Gson gson = new Gson();
 					f.complete(gson.fromJson(response.body().string(), Localisation.class));
 				}
+				response.body().close();
 			}
 		});
 		return f;
@@ -150,6 +151,7 @@ public class Localisation implements Serializable, Comparable<Localisation>
 					Gson gson = new Gson();
 					f.complete(true);
 				}
+				response.body().close();
 			}
 		});
 		return f;
@@ -181,8 +183,6 @@ public class Localisation implements Serializable, Comparable<Localisation>
 			{
 				if (!response.isSuccessful())
 				{
-//					List<Localisation> loc = new ArrayList<>();
-//					loc.add(new Localisation());
 					List<Localisation> loc = null;
 					f.complete(loc);
 				}
@@ -193,6 +193,7 @@ public class Localisation implements Serializable, Comparable<Localisation>
 					ArrayList<Localisation> loc = gson.fromJson(response.body().string(), type);
 					f.complete(loc);
 				}
+				response.body().close();
 			}
 		});
 		return f;
@@ -222,8 +223,12 @@ public class Localisation implements Serializable, Comparable<Localisation>
 			{
 				if (!response.isSuccessful())
 					f.complete(new Localisation());
-				Gson gson = new Gson();
-				f.complete(gson.fromJson(response.body().string(), Localisation.class));
+				else
+				{
+					Gson gson = new Gson();
+					f.complete(gson.fromJson(response.body().string(), Localisation.class));
+				}
+				response.body().close();
 			}
 		});
 		return f;

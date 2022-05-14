@@ -88,6 +88,8 @@ public class PriceComparisonActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
+        if (this.user_localisation != null && this.user_localisation.getNom() != null)
+            btnChangePrice.setText("Le prix a changé");
         getPrices();
         displayPrices();
     }
@@ -194,7 +196,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
             listViewComparison.setAdapter(prixAdapter);
         }
         else
-            Toast.makeText(this, "Can't display prices", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Chargement en cours", Toast.LENGTH_SHORT).show();
     }
 
     private void getPrices()

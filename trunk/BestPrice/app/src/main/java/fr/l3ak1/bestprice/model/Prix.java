@@ -51,7 +51,7 @@ public class Prix implements Serializable, Comparable<Prix>
 	{
 		this.id = id;
 		this.codeBarres = codeBarres;
-		this.prix = prix;
+		this.prix = (double) (Math.round(prix * 100.0) / 100.0);
 		this.date = date;
 		this.localisation_id = localisation_id;
 	}
@@ -59,7 +59,7 @@ public class Prix implements Serializable, Comparable<Prix>
 	public Prix(String codeBarres, double prix, String date, long localisation_id)
 	{
 		this.codeBarres = codeBarres;
-		this.prix = prix;
+		this.prix = (double) (Math.round(prix * 100.0) / 100.0);
 		this.date = date;
 		this.localisation_id = localisation_id;
 	}
@@ -67,7 +67,7 @@ public class Prix implements Serializable, Comparable<Prix>
 	public Prix(String codeBarres, double prix, String date, long localisation_id, String localisation_nom)
 	{
 		this.codeBarres = codeBarres;
-		this.prix = prix;
+		this.prix = (double) (Math.round(prix * 100.0) / 100.0);
 		this.date = date;
 		this.localisation_id = localisation_id;
 		this.localisation_nom = localisation_nom;
@@ -78,7 +78,7 @@ public class Prix implements Serializable, Comparable<Prix>
 	{
 		this.id = id;
 		this.codeBarres = codeBarres;
-		this.prix = prix;
+		this.prix = (double) (Math.round(prix * 100.0) / 100.0);
 		this.date = date;
 		this.localisation_id = localisation_id;
 		this.localisation_nom = localisation_nom;
@@ -219,6 +219,44 @@ public class Prix implements Serializable, Comparable<Prix>
 		return f;
 	}
 
+	public static CompletableFuture<Prix> getCheapest(String codeBarres) throws IOException
+	{
+		CompletableFuture<Prix> f = new CompletableFuture<>();
+		HttpUrl.Builder queryBuilder;
+		Request request;
+		queryBuilder =
+				HttpUrl.get(Database.URL_API + "/api/prix/getCheapest.php").newBuilder();
+		queryBuilder.addQueryParameter("codeBarres", codeBarres);
+
+		request = new Request.Builder().url(queryBuilder.build()).build();
+
+		client.newCall(request).enqueue(new Callback()
+		{
+			@Override
+			public void onFailure(@NonNull Call call, @NonNull IOException e)
+			{
+				e.printStackTrace();
+			}
+
+			@Override
+			public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException
+			{
+				if (!response.isSuccessful())
+				{
+					Prix prix = null;
+					f.complete(prix);
+				}
+				else
+				{
+					Gson gson = new Gson();
+					Prix prix = gson.fromJson(response.body().string(), Prix.class);
+					f.complete(prix);
+				}
+			}
+		});
+		return f;
+	}
+
 	@Override
 	public String toString()
 	{
@@ -271,7 +309,7 @@ public class Prix implements Serializable, Comparable<Prix>
 
 	public void setPrix(double prix)
 	{
-		this.prix = prix;
+		this.prix = (double) (Math.round(prix * 100.0) / 100.0);
 	}
 
 	public String getDate()

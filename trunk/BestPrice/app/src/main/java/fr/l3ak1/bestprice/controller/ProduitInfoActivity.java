@@ -20,14 +20,17 @@ import java.util.concurrent.CompletableFuture;
 
 import fr.l3ak1.bestprice.R;
 import fr.l3ak1.bestprice.model.DatabaseSQLite;
+import fr.l3ak1.bestprice.model.Prix;
 import fr.l3ak1.bestprice.model.Produit;
 
 public class ProduitInfoActivity extends AppCompatActivity
 {
 	private Produit produit;
+	private Prix prix;
 	private TextView textViewMarque;
 	private TextView textViewNom;
 	private TextView textViewContenu;
+	private TextView tvPrix;
 	private ImageView imageView;
 	private Button btnComparisonPrice;
 	private Button btnEvolutionPrice;
@@ -43,6 +46,7 @@ public class ProduitInfoActivity extends AppCompatActivity
 		textViewContenu = findViewById(R.id.scan_text_quantite);
 		imageView = findViewById(R.id.scan_imageview);
 		btnComparisonPrice = findViewById(R.id.scan_button_comparaison_prix);
+		tvPrix = findViewById(R.id.scan_text_prix);
 
 		btnComparisonPrice.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -69,6 +73,12 @@ public class ProduitInfoActivity extends AppCompatActivity
 		else
 		{
 			this.produit = (Produit) getIntent().getSerializableExtra("PRODUIT");
+			try{
+				CompletableFuture<Prix> fPrix = Prix.getCheapest(this.produit.getCodeBarres());
+				this.prix = fPrix.get();
+			} catch (Exception e){
+				e.printStackTrace();
+			}
 			displayInfosProduit();
 		}
 	}
@@ -83,8 +93,10 @@ public class ProduitInfoActivity extends AppCompatActivity
 				else
 				{
 					try {
-						CompletableFuture<Produit> f = Produit.getProduit(result.getContents());
-						this.produit = f.get();
+						CompletableFuture<Produit> fProduit = Produit.getProduit(result.getContents());
+						CompletableFuture<Prix> fPrix = Prix.getCheapest(result.getContents());
+						this.produit = fProduit.get();
+						this.prix = fPrix.get();
 						saveLocalProduit();
 						displayInfosProduit();
 					} catch (Exception e){
@@ -131,6 +143,8 @@ public class ProduitInfoActivity extends AppCompatActivity
 				textViewNom.setText(produit.getNom());
 			if (produit.getQuantite() != null && !produit.getQuantite().isEmpty())
 				textViewContenu.setText(produit.getQuantite());
+			if (prix != null)
+				tvPrix.setText(Double.toString(prix.getPrix()));
 		} catch (Exception e){
 			e.printStackTrace();
 		}

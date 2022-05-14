@@ -65,6 +65,28 @@ class Prix
 		}
 	}
 
+	public function findCheapestForBarcode()
+	{
+		$sql = "SELECT * FROM Prix WHERE produit_codebarres = :codeBarres ORDER BY prix ASC LIMIT 1";
+		try{
+			$statement = $this->db->prepare($sql);
+			$statement->execute([
+				"codeBarres" => $this->codeBarres
+			]);
+			$res = $statement->fetch(PDO::FETCH_ASSOC);
+			if ($res != null)
+			{
+				$this->id = $res['id'];
+				$this->prix = $res['prix'];
+				$this->datePrix = $res['dateprix'];
+				$this->localisation_id = $res['localisation_id'];
+			}
+			return $res;
+		} catch (Exception $e){
+			die ('Erreur : ' . $e->getMessage());
+		}
+	}
+
 	public function findAllInfos()
 	{
 		$sql = "SELECT produit_codebarres, marque, Produit.nom as produit_nom, contenu, imagepath, prix, dateprix, localisation_id, latitude, longitude, Localisation.nom as localisation_nom

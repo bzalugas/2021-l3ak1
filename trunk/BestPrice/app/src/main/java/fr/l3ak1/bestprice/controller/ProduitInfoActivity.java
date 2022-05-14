@@ -68,6 +68,25 @@ public class ProduitInfoActivity extends AppCompatActivity
 				startActivity(evolutionIntent);
 			}
 		});
+//		if (getIntent().getBooleanExtra("SCAN_NEEDED", false))
+//			launchScan();
+//		else
+//		{
+//			this.produit = (Produit) getIntent().getSerializableExtra("PRODUIT");
+//			try{
+//				CompletableFuture<Prix> fPrix = Prix.getCheapest(this.produit.getCodeBarres());
+//				this.prix = fPrix.get();
+//			} catch (Exception e){
+//				e.printStackTrace();
+//			}
+//			displayInfosProduit();
+//		}
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
 		if (getIntent().getBooleanExtra("SCAN_NEEDED", false))
 			launchScan();
 		else

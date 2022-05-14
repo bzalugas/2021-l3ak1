@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import fr.l3ak1.bestprice.R;
@@ -29,6 +32,53 @@ public class ProduitPrixAdapter extends BaseAdapter
 		this.activity = activity;
 		this.produitList = produits;
 		this.prices = prices;
+		sortPricesByDate();
+		sortProduitsByDate();
+	}
+
+	private void sortPricesByDate()
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Date d1;
+		Date d2;
+		Prix tmp;
+		for (int i = 0; i < prices.size() - 1; i++)
+			for (int j = i + 1; j < prices.size(); j++)
+			{
+				try {
+					d1 = sdf.parse(prices.get(i).getDate());
+					d2 = sdf.parse(prices.get(j).getDate());
+					if (d1.before(d2))
+					{
+						tmp = prices.get(i);
+						prices.set(i, prices.get(j));
+						prices.set(j, tmp);
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+	}
+
+	private void sortProduitsByDate()
+	{
+		int indexProduit;
+		Produit tmp;
+		for (int i = 0; i < prices.size(); i++)
+		{
+			indexProduit = getProduit(prices.get(i));
+			tmp = produitList.get(indexProduit);
+			produitList.set(indexProduit, produitList.get(i));
+			produitList.set(i, tmp);
+		}
+	}
+
+	private int getProduit(Prix prix)
+	{
+		for (int i = 0; i < produitList.size(); i++)
+			if (produitList.get(i).getCodeBarres().equals(prix.getCodeBarres()))
+				return i;
+		return -1;
 	}
 
 	@Override
@@ -63,6 +113,8 @@ public class ProduitPrixAdapter extends BaseAdapter
 		TextView tvPrix = oneProduitLine.findViewById(R.id.produit_text_prix);
 
 		Produit p = this.getItem(i);
+		Prix prix = prices.get(i);
+//		Produit p = findProduit(prix);
 
 		if (p.getImagePath() != null && !p.getImagePath().isEmpty())
 			Picasso.get().load(p.getImagePath()).into(img);
@@ -73,13 +125,21 @@ public class ProduitPrixAdapter extends BaseAdapter
 			tvQuantite.setText(p.getQuantite());
 		if (prices != null && !prices.isEmpty())
 		{
-			double prix = findPrice(p);
-			prix = (double) (Math.round(prix * 100.0) / 100.0);
-			if (prix != 0)
-				tvPrix.setText(Double.toString(prix));
+//			double prix = findPrice(p);
+//			prix = (double) (Math.round(prix.getPrix() * 100.0) / 100.0);
+			if (prix.getPrix() != 0)
+				tvPrix.setText(Double.toString(prix.getPrix()));
 		}
 
 		return oneProduitLine;
+	}
+
+	private Produit findProduit(Prix prix)
+	{
+		for (Produit p : this.produitList)
+			if (p.getCodeBarres().equals(prix.getCodeBarres()))
+				return p;
+		return null;
 	}
 
 	private double findPrice(Produit p)

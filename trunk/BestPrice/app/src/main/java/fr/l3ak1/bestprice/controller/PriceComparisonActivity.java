@@ -21,20 +21,22 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import fr.l3ak1.bestprice.R;
 import fr.l3ak1.bestprice.model.DatabaseSQLite;
 import fr.l3ak1.bestprice.model.Localisation;
+import fr.l3ak1.bestprice.model.PriceComparisonAdapter;
 import fr.l3ak1.bestprice.model.Prix;
 import fr.l3ak1.bestprice.model.Produit;
 
 public class PriceComparisonActivity extends AppCompatActivity {
 
-    private ArrayList<Prix> prixList;
+    private List<Prix> prixList;
     private Produit produit;
     private Localisation user_localisation;
-    private ArrayList<Localisation> localisationsPrix;
+    private List<Localisation> localisationsPrix;
     private ListView listViewComparison;
     private double newPrice;
     private Button btnChangePrice;
@@ -67,7 +69,8 @@ public class PriceComparisonActivity extends AppCompatActivity {
         produit = (Produit)getIntent().getSerializableExtra("produit");
 
         getLocation();
-        getPrices();
+        if (user_localisation != null)
+            getPrices();
 
         btnChangePrice.setOnClickListener(new View.OnClickListener()
         {
@@ -85,6 +88,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
+        getPrices();
         displayPrices();
     }
 
@@ -144,6 +148,8 @@ public class PriceComparisonActivity extends AppCompatActivity {
                 });
             }
             db.addPrix(tmpPrix);
+            if (this.prixList == null)
+                this.prixList = new ArrayList<>();
             this.prixList.add(tmpPrix);
         } catch (Exception e){
             e.printStackTrace();
@@ -181,26 +187,42 @@ public class PriceComparisonActivity extends AppCompatActivity {
 
     private void displayPrices()
     {
-        ArrayAdapter<Prix> prixAdapter;
-        prixAdapter = new ArrayAdapter<Prix>(this,
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, prixList);
-        listViewComparison.setAdapter(prixAdapter);
+        if (this.prixList != null && this.localisationsPrix != null)
+        {
+            PriceComparisonAdapter prixAdapter = new PriceComparisonAdapter(this, this.prixList,
+                    this.localisationsPrix);
+            listViewComparison.setAdapter(prixAdapter);
+        }
+        else
+            Toast.makeText(this, "Can't display prices", Toast.LENGTH_SHORT).show();
     }
 
     private void getPrices()
     {
-        /*Modifier pour ne prendre que les derniers prix des 5 magasins les plus proches*/
-        try {
-            CompletableFuture<ArrayList<Prix>> f = Prix.getAllPrix(produit.getCodeBarres());
-            this.prixList = f.get();
-            if (!this.prixList.isEmpty())
-                for (Prix p : prixList)
-                    p.setLocalisation_nom(getLocalisationById(p.getLocalisation_id()));
+        try{
+            CompletableFuture<List<Prix>> fPrices =
+                    Prix.getNearbyPrices(this.produit.getCodeBarres(),
+                    user_localisation.getLatitude(), user_localisation.getLongitude(), 1000);
+            CompletableFuture<List<Localisation>> fLoc = user_localisation.getNearbyLocations(1000);
+            this.prixList = fPrices.get();
+            this.localisationsPrix = fLoc.get();
+
         } catch (Exception e){
             e.printStackTrace();
         }
-        if (this.prixList.isEmpty())
-            askNewPrice();
+
+//        /*Modifier pour ne prendre que les derniers prix des 5 magasins les plus proches*/
+//        try {
+//            CompletableFuture<ArrayList<Prix>> f = Prix.getAllPrix(produit.getCodeBarres());
+//            this.prixList = f.get();
+//            if (!this.prixList.isEmpty())
+//                for (Prix p : prixList)
+//                    p.setLocalisation_nom(getLocalisationById(p.getLocalisation_id()));
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        if (this.prixList.isEmpty())
+//            askNewPrice();
     }
 
     private String getLocalisationById(long id)

@@ -32,7 +32,7 @@
         android:id="@+id/comparison_line_tv_setrouve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
+        android:layout_marginStart="140dp"
         android:layout_marginTop="52dp"
         android:text="Ce magasin se trouve à : "
         android:textSize="15sp"
@@ -50,6 +50,7 @@
         android:textStyle="italic"
         android:textColor="@color/button"
         app:layout_constraintStart_toEndOf="@+id/comparison_line_tv_setrouve"
+        app:layout_constraintEnd_toStartOf="@+id/comparison_line_tv_km"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -57,11 +58,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
+        android:layout_marginRight="5dp"
         android:text="km"
         android:textSize="15sp"
         android:textColor="@color/button"
         android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/comparison_line_tv_distance"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 

@@ -176,6 +176,7 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	@Override
 	public void onLocationChanged(@NonNull Location location)
 	{
+		Log.d("LogLocalisationActivity", "onLocationChanged");
 		this.latitude = location.getLatitude();
 		this.longitude = location.getLongitude();
 		this.user_location = new Localisation(this.latitude, this.longitude);

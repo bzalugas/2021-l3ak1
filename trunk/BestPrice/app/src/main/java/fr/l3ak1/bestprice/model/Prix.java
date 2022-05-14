@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import okhttp3.Call;
@@ -170,6 +171,49 @@ public class Prix implements Serializable, Comparable<Prix>
 					f.complete(true);
 				else
 					f.complete(false);
+			}
+		});
+		return f;
+	}
+
+	public static CompletableFuture<List<Prix>> getNearbyPrices(String codeBarres, double latitude,
+																double longitude, int radius) throws IOException
+	{
+		CompletableFuture<List<Prix>> f = new CompletableFuture<>();
+		HttpUrl.Builder queryBuilder;
+		Request request;
+		queryBuilder =
+				HttpUrl.get(Database.URL_API + "/api/prix/getNearby.php").newBuilder();
+		queryBuilder.addQueryParameter("codeBarres", codeBarres);
+		queryBuilder.addQueryParameter("latitude", Double.toString(latitude));
+		queryBuilder.addQueryParameter("longitude", Double.toString(longitude));
+		queryBuilder.addQueryParameter("radius", Integer.toString(radius));
+
+		request = new Request.Builder().url(queryBuilder.build()).build();
+
+		client.newCall(request).enqueue(new Callback()
+		{
+			@Override
+			public void onFailure(@NonNull Call call, @NonNull IOException e)
+			{
+				e.printStackTrace();
+			}
+
+			@Override
+			public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException
+			{
+				if (!response.isSuccessful())
+				{
+					List<Prix> prix = null;
+					f.complete(prix);
+				}
+				else
+				{
+					Gson gson = new Gson();
+					Type type = new TypeToken<List<Prix>>(){}.getType();
+					List<Prix> prix = gson.fromJson(response.body().string(), type);
+					f.complete(prix);
+				}
 			}
 		});
 		return f;

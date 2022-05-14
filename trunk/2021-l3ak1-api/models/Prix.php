@@ -108,9 +108,49 @@ class Prix
 		}
 	}
 
-	public function getPrixProduitLoc()
+	public function findPrixProduitLoc()
 	{
+        $sql =
+        "SELECT * FROM Prix
+        WHERE produit_codebarres = :codebarres AND localisation_id = :localisation_id
+        ORDER BY dateprix DESC LIMIT 1";
 
+        try{
+            $statement = $this->db->prepare($sql);
+            $statement->execute([
+                'codebarres' => $this->codeBarres,
+                'localisation_id' => $this->localisation_id
+            ]);
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+			if ($res != null)
+			{
+				$this->id = $res['id'];
+				$this->prix = $res['prix'];
+				$this->datePrix = $res['dateprix'];
+			}
+            return $res;
+        } catch (Exception $e){
+            die ('Erreur : ' . $e->getMessage());
+        }
+	}
+
+	public function findPrixProduitAllLoc($lstLocIds = [])
+	{
+        $sql =
+        "SELECT * FROM Prix
+        WHERE produit_codebarres = :codebarres AND localisation_id IN (".implode(',', $lstLocIds).")
+        ORDER BY dateprix DESC LIMIT 1";
+
+        try{
+            $statement = $this->db->prepare($sql);
+            $statement->execute([
+                'codebarres' => $this->codeBarres
+            ]);
+            $res = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $res;
+        } catch (Exception $e){
+            die ('Erreur : ' . $e->getMessage());
+        }
 	}
 }
 ?>

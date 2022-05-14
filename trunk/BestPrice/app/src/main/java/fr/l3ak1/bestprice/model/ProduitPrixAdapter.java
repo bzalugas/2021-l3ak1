@@ -74,6 +74,7 @@ public class ProduitPrixAdapter extends BaseAdapter
 		if (prices != null && !prices.isEmpty())
 		{
 			double prix = findPrice(p);
+			prix = (double) (Math.round(prix * 100.0) / 100.0);
 			if (prix != 0)
 				tvPrix.setText(Double.toString(prix));
 //			tvPrix.setText(Double.toString(prices.get(i).getPrix()) + " €");

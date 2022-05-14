@@ -197,7 +197,7 @@ public class Localisation implements Serializable
 		});
 		return f;
 	}
-
+	
 	public static CompletableFuture<Localisation> getLocalisationByName(String name) throws IOException
 	{
 		CompletableFuture<Localisation> f = new CompletableFuture<>();

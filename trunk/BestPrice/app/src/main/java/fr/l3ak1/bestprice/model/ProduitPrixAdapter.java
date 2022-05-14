@@ -113,7 +113,9 @@ public class ProduitPrixAdapter extends BaseAdapter
 		TextView tvPrix = oneProduitLine.findViewById(R.id.produit_text_prix);
 
 		Produit p = this.getItem(i);
-		Prix prix = prices.get(i);
+		Prix prix = null;
+		if (prices != null && (i < prices.size()))
+			prix = prices.get(i);
 //		Produit p = findProduit(prix);
 
 		if (p.getImagePath() != null && !p.getImagePath().isEmpty())
@@ -127,7 +129,7 @@ public class ProduitPrixAdapter extends BaseAdapter
 		{
 //			double prix = findPrice(p);
 //			prix = (double) (Math.round(prix.getPrix() * 100.0) / 100.0);
-			if (prix.getPrix() != 0)
+			if (prix != null && prix.getPrix() != 0)
 				tvPrix.setText(Double.toString(prix.getPrix()));
 		}
 

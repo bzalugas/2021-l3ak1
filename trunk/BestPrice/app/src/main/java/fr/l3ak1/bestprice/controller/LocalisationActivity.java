@@ -92,16 +92,16 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	protected void onResume()
 	{
 		super.onResume();
-		if (getStore && this.localisationList != null && !this.localisationList.isEmpty())
-			showStores();
-		else if (getStore && this.latitude != 0 && this.longitude != 0)
-		{
-			this.user_location = new Localisation(this.latitude, this.longitude);
-			showStores();
-		}
-		else
-			Log.d("LogLocalisationActivity", "onResume: !(localisationList != null && " +
-					"!localisationList.isEmpty()");
+//		if (getStore && this.localisationList != null && !this.localisationList.isEmpty())
+//			showStores();
+//		else if (getStore && this.latitude != 0 && this.longitude != 0)
+//		{
+//			this.user_location = new Localisation(this.latitude, this.longitude);
+//			showStores();
+//		}
+//		else
+//			Log.d("LogLocalisationActivity", "onResume: !(localisationList != null && " +
+//					"!localisationList.isEmpty()");
 	}
 
 	private void askStore()
@@ -176,15 +176,14 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	@Override
 	public void onLocationChanged(@NonNull Location location)
 	{
-		Log.d("LogLocalisationActivity", "onLocationChanged");
 		this.latitude = location.getLatitude();
 		this.longitude = location.getLongitude();
 		this.user_location = new Localisation(this.latitude, this.longitude);
-		locationManager.removeUpdates(this);
 		if (getStore)
 			showStores();
 		else
 			sendLocationAndFinish();
+		locationManager.removeUpdates(this);
 	}
 
 	@Override

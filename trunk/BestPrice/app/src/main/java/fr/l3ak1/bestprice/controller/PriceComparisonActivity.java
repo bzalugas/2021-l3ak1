@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -40,6 +42,9 @@ public class PriceComparisonActivity extends AppCompatActivity {
     private ListView listViewComparison;
     private double newPrice;
     private Button btnChangePrice;
+    private Button btnSortPrice;
+    private Button btnSortDistance;
+    private PriceComparisonAdapter prixAdapter;
 
     ActivityResultLauncher<Intent> startForResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -65,6 +70,8 @@ public class PriceComparisonActivity extends AppCompatActivity {
 
         listViewComparison = findViewById(R.id.comparison_listview_enseigne);
         btnChangePrice = findViewById(R.id.comparison_button_change_price);
+        btnSortDistance = findViewById(R.id.comparison_btn_tri_dist);
+        btnSortPrice = findViewById(R.id.comparison_btn_tri_price);
 
         produit = (Produit)getIntent().getSerializableExtra("produit");
 
@@ -82,16 +89,42 @@ public class PriceComparisonActivity extends AppCompatActivity {
                 askNewPrice();
             }
         });
+
+        btnSortPrice.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                sortByPrice();
+                if (prixAdapter != null)
+                    prixAdapter.notifyDataSetChanged();
+            }
+        });
+
+        btnSortDistance.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                sortByDistance();
+                if (prixAdapter != null)
+                    prixAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        if (this.user_localisation != null && this.user_localisation.getNom() != null)
-            btnChangePrice.setText("Le prix a changé");
-        getPrices();
-        displayPrices();
+        if (this.user_localisation != null)
+        {
+            if (this.user_localisation.getNom() != null)
+                btnChangePrice.setText("Le prix a changé");
+            getPrices();
+            displayPrices();
+        }
     }
 
     private void getLocation()
@@ -191,7 +224,8 @@ public class PriceComparisonActivity extends AppCompatActivity {
     {
         if (this.prixList != null && this.localisationsPrix != null)
         {
-            PriceComparisonAdapter prixAdapter = new PriceComparisonAdapter(this, this.prixList,
+//            Toast.makeText(this, "COUCOU", Toast.LENGTH_SHORT).show();
+            prixAdapter = new PriceComparisonAdapter(this, this.prixList,
                     this.localisationsPrix);
             listViewComparison.setAdapter(prixAdapter);
         }
@@ -204,11 +238,11 @@ public class PriceComparisonActivity extends AppCompatActivity {
         try{
             CompletableFuture<List<Prix>> fPrices =
                     Prix.getNearbyPrices(this.produit.getCodeBarres(),
-                    user_localisation.getLatitude(), user_localisation.getLongitude(), 1000);
-            CompletableFuture<List<Localisation>> fLoc = user_localisation.getNearbyLocations(1000);
+                    user_localisation.getLatitude(), user_localisation.getLongitude(), 5000);
+            CompletableFuture<List<Localisation>> fLoc =
+                    user_localisation.getNearbyLocations(5000);
             this.prixList = fPrices.get();
             this.localisationsPrix = fLoc.get();
-
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -225,6 +259,56 @@ public class PriceComparisonActivity extends AppCompatActivity {
 //        }
 //        if (this.prixList.isEmpty())
 //            askNewPrice();
+    }
+
+    private void sortByDistance()
+    {
+        Collections.sort(this.localisationsPrix);
+        int indexPrix;
+        Prix tmp;
+        for (int i = 0; i < localisationsPrix.size(); i++)
+        {
+            indexPrix = getPrixIndex(localisationsPrix.get(i));
+            if (indexPrix != -1)
+            {
+                tmp = prixList.get(indexPrix);
+                prixList.set(indexPrix, prixList.get(i));
+                prixList.set(i, tmp);
+            }
+        }
+    }
+
+    private void sortByPrice()
+    {
+        Collections.sort(this.prixList);
+        int indexLoc;
+        Localisation tmp;
+        for (int i = 0; i < prixList.size(); i++)
+        {
+            indexLoc = getLocalisationIndex(prixList.get(i));
+            if (indexLoc != -1)
+            {
+                tmp = localisationsPrix.get(indexLoc);
+                localisationsPrix.set(indexLoc, localisationsPrix.get(i));
+                localisationsPrix.set(i, tmp);
+            }
+        }
+    }
+
+    private int getPrixIndex(Localisation loc)
+    {
+        for (int i = 0; i < prixList.size(); i++)
+            if (prixList.get(i).getLocalisation_id() == loc.getId())
+                return i;
+        return -1;
+    }
+
+    private int getLocalisationIndex(Prix p)
+    {
+        for (int i = 0; i < localisationsPrix.size(); i++)
+            if (localisationsPrix.get(i).getId() == p.getLocalisation_id())
+                return i;
+        return -1;
     }
 
     private String getLocalisationById(long id)

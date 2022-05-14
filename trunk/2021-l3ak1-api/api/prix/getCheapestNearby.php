@@ -28,13 +28,10 @@ $locIds = [];
 foreach ($locList as $l)
 	array_push($locIds, $l['id']);
 
-$prices = null;
-if (count($locIds) > 0)
-	$prices = $prix->findPrixProduitAllLoc($locIds);
+$res = $prix->findCheapestNearby($locIds);
 
-if ($prices == null)
+if ($res == null)
 	http_response_code(404);
 
-echo (json_encode($prices));
-
+echo json_encode($res);
 ?>

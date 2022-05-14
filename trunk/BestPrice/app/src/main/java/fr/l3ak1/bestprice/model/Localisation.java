@@ -29,7 +29,7 @@ import okhttp3.Response;
 /**
  * Class to represent a Location
  */
-public class Localisation implements Serializable
+public class Localisation implements Serializable, Comparable<Localisation>
 {
 	private long id;
 	private double latitude;
@@ -60,7 +60,7 @@ public class Localisation implements Serializable
 		this.latitude = (double) (Math.round(latitude*1000000.0)/1000000.0);
 		this.longitude = (double) (Math.round(longitude*1000000.0)/1000000.0);
 		this.nom = nom;
-		this.distance = (double) (Math.round(distance*10.0)/10.0);
+		this.distance = (double) (Math.round(distance*1.0)/1.0);
 		Log.d("LogLocalisation", "dans constructeur");
 	}
 
@@ -197,7 +197,7 @@ public class Localisation implements Serializable
 		});
 		return f;
 	}
-	
+
 	public static CompletableFuture<Localisation> getLocalisationByName(String name) throws IOException
 	{
 		CompletableFuture<Localisation> f = new CompletableFuture<>();
@@ -308,7 +308,12 @@ public class Localisation implements Serializable
 
 	public void setDistance(double distance)
 	{
-		this.distance = (double) (Math.round(distance*10.0)/10.0);
-		Log.d("LogLocalisation", "dans setDistance");
+		this.distance = (double) (Math.round(distance*1.0)/1.0);
+	}
+
+	@Override
+	public int compareTo(Localisation other)
+	{
+		return (int)Math.round(this.getDistance() - other.getDistance());
 	}
 }

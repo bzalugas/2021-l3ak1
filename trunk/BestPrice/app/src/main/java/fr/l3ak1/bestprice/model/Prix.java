@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -92,6 +94,7 @@ public class Prix implements Serializable, Comparable<Prix>
 	 */
 	public static CompletableFuture<ArrayList<Prix>> getAllPrix(String codeBarres) throws IOException
 	{
+		Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
 		CompletableFuture<ArrayList<Prix>> f = new CompletableFuture<>();
 		HttpUrl.Builder queryBuilder;
 		Request request;
@@ -141,6 +144,7 @@ public class Prix implements Serializable, Comparable<Prix>
 	 */
 	public CompletableFuture<Boolean> addPrix() throws IOException
 	{
+		Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
 		CompletableFuture<Boolean> f = new CompletableFuture<>();
 		Gson gson = new Gson();
 		RequestBody body;
@@ -179,6 +183,7 @@ public class Prix implements Serializable, Comparable<Prix>
 	public static CompletableFuture<List<Prix>> getNearbyPrices(String codeBarres, double latitude,
 																double longitude, int radius) throws IOException
 	{
+		Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
 		CompletableFuture<List<Prix>> f = new CompletableFuture<>();
 		HttpUrl.Builder queryBuilder;
 		Request request;
@@ -221,6 +226,7 @@ public class Prix implements Serializable, Comparable<Prix>
 
 	public static CompletableFuture<Prix> getCheapest(String codeBarres) throws IOException
 	{
+		Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
 		CompletableFuture<Prix> f = new CompletableFuture<>();
 		HttpUrl.Builder queryBuilder;
 		Request request;
@@ -268,16 +274,7 @@ public class Prix implements Serializable, Comparable<Prix>
 	@Override
 	public int compareTo(Prix other)
 	{
-		Date date = null;
-		Date dateOther = null;
-		try {
-			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(this.getDate());
-			dateOther = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(other.getDate());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return date.compareTo(dateOther);
+		return (int) (this.getPrix()*100.0 - other.getPrix()*100.0);
 	}
 
 	public long getId()

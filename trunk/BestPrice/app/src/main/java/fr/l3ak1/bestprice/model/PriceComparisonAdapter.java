@@ -2,6 +2,7 @@ package fr.l3ak1.bestprice.model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,13 +29,13 @@ public class PriceComparisonAdapter extends BaseAdapter
 	@Override
 	public int getCount()
 	{
-		return localisationList.size();
+		return prixList.size();
 	}
 
 	@Override
-	public Localisation getItem(int i)
+	public Prix getItem(int i)
 	{
-		return localisationList.get(i);
+		return prixList.get(i);
 	}
 
 	@Override
@@ -55,11 +56,9 @@ public class PriceComparisonAdapter extends BaseAdapter
 		TextView tvPrix = comparisonOneLine.findViewById(R.id.comparison_line_tv_prix);
 		TextView tvDist = comparisonOneLine.findViewById(R.id.comparison_line_tv_distance);
 
-		Localisation loc = this.getItem(i);
-		Prix prix = findPrix(loc);
+		Prix prix = this.getItem(i);
+		Localisation loc = findLocalisation(prix);
 
-		if (prix == null)
-			return null;
 		if (loc.getNom() != null && !loc.getNom().isEmpty())
 			tvNom.setText(loc.getNom());
 		tvPrix.setText(Double.toString(prix.getPrix()));
@@ -70,11 +69,11 @@ public class PriceComparisonAdapter extends BaseAdapter
 		return comparisonOneLine;
 	}
 
-	private Prix findPrix(Localisation loc)
+	private Localisation findLocalisation(Prix prix)
 	{
-		for (Prix p : prixList)
-			if (p.getLocalisation_id() == loc.getId())
-				return p;
+		for (Localisation l : localisationList)
+			if (l.getId() == prix.getLocalisation_id())
+				return l;
 		return null;
 	}
 }

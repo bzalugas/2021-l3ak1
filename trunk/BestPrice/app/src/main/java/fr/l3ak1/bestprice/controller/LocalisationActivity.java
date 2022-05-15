@@ -65,6 +65,9 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 			tvMagasins = findViewById(R.id.loc_text_magasin);
 			lvMagasins = findViewById(R.id.loc_list_view);
 			btnAdd = findViewById(R.id.loc_button_add);
+
+			this.user_location = (Localisation) getIntent().getSerializableExtra("localisation");
+
 			lvMagasins.setOnItemClickListener(new AdapterView.OnItemClickListener()
 			{
 				@Override

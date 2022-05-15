@@ -142,6 +142,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
     {
         try {
             Intent localisationIntent = new Intent(this, LocalisationActivity.class);
+            localisationIntent.putExtra("localisation", user_localisation);
             localisationIntent.putExtra("getStore", true);
             startForResult.launch(localisationIntent);
         } catch (Exception e) {

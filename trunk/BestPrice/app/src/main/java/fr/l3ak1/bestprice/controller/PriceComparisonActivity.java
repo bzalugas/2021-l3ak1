@@ -224,7 +224,6 @@ public class PriceComparisonActivity extends AppCompatActivity {
     {
         if (this.prixList != null && this.localisationsPrix != null)
         {
-//            Toast.makeText(this, "COUCOU", Toast.LENGTH_SHORT).show();
             prixAdapter = new PriceComparisonAdapter(this, this.prixList,
                     this.localisationsPrix);
             listViewComparison.setAdapter(prixAdapter);
@@ -246,19 +245,6 @@ public class PriceComparisonActivity extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
-
-//        /*Modifier pour ne prendre que les derniers prix des 5 magasins les plus proches*/
-//        try {
-//            CompletableFuture<ArrayList<Prix>> f = Prix.getAllPrix(produit.getCodeBarres());
-//            this.prixList = f.get();
-//            if (!this.prixList.isEmpty())
-//                for (Prix p : prixList)
-//                    p.setLocalisation_nom(getLocalisationById(p.getLocalisation_id()));
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        if (this.prixList.isEmpty())
-//            askNewPrice();
     }
 
     private void sortByDistance()
@@ -272,8 +258,11 @@ public class PriceComparisonActivity extends AppCompatActivity {
             if (indexPrix != -1)
             {
                 tmp = prixList.get(indexPrix);
-                prixList.set(indexPrix, prixList.get(i));
-                prixList.set(i, tmp);
+                if (i < prixList.size())
+                {
+                    prixList.set(indexPrix, prixList.get(i));
+                    prixList.set(i, tmp);
+                }
             }
         }
     }
@@ -289,8 +278,11 @@ public class PriceComparisonActivity extends AppCompatActivity {
             if (indexLoc != -1)
             {
                 tmp = localisationsPrix.get(indexLoc);
-                localisationsPrix.set(indexLoc, localisationsPrix.get(i));
-                localisationsPrix.set(i, tmp);
+                if (i < localisationsPrix.size())
+                {
+                    localisationsPrix.set(indexLoc, localisationsPrix.get(i));
+                    localisationsPrix.set(i, tmp);
+                }
             }
         }
     }
@@ -309,26 +301,5 @@ public class PriceComparisonActivity extends AppCompatActivity {
             if (localisationsPrix.get(i).getId() == p.getLocalisation_id())
                 return i;
         return -1;
-    }
-
-    private String getLocalisationById(long id)
-    {
-        String nom = "";
-        if (id != 0)
-        {
-            try{
-                CompletableFuture<Localisation> f = Localisation.getLocalisationById(id);
-                Localisation tmpLoc = f.get();
-                if (tmpLoc != null)
-                {
-                    nom = tmpLoc.getNom();
-//                    this.localisationsPrix.add(tmpLoc);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return nom;
-        }
-        return null;
     }
 }

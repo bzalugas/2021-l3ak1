@@ -16,24 +16,18 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="250px" />
 
+
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/scan_text_nom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="130dp"
-        android:text="Evolution du prix du produit" />
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="160dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/img_icon" />
+        android:text="ÉVOLUTION DU PRIX"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

@@ -321,4 +321,12 @@ public class Localisation implements Serializable, Comparable<Localisation>
 	{
 		return (int)Math.round(this.getDistance() - other.getDistance());
 	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder s = new StringBuilder(Long.toString(id));
+		s.append(", ").append(getNom()).append(", Distance : ").append(Double.toString(getDistance()));
+		return s.toString();
+	}
 }

@@ -53,13 +53,37 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_localisation);
-
-		tvMagasins = findViewById(R.id.loc_text_magasin);
-		lvMagasins = findViewById(R.id.loc_list_view);
-		btnAdd = findViewById(R.id.loc_button_add);
-
 		getStore = getIntent().getBooleanExtra("getStore", false);
+		if (!getStore)
+		{
+			setContentView(R.layout.activity_localisation_loading);
+		}
+		else
+		{
+			setContentView(R.layout.activity_localisation);
+
+			tvMagasins = findViewById(R.id.loc_text_magasin);
+			lvMagasins = findViewById(R.id.loc_list_view);
+			btnAdd = findViewById(R.id.loc_button_add);
+			lvMagasins.setOnItemClickListener(new AdapterView.OnItemClickListener()
+			{
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+				{
+					user_location = (Localisation) parent.getItemAtPosition(position);
+					sendLocationAndFinish();
+				}
+			});
+
+			btnAdd.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View view)
+				{
+					askStore();
+				}
+			});
+		}
 
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		if(Build.VERSION.SDK_INT>=23){
@@ -67,25 +91,6 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		}else{
 			requestLocation();
 		}
-
-		lvMagasins.setOnItemClickListener(new AdapterView.OnItemClickListener()
-		{
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-			{
-				user_location = (Localisation) parent.getItemAtPosition(position);
-				sendLocationAndFinish();
-			}
-		});
-
-		btnAdd.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View view)
-			{
-				askStore();
-			}
-		});
 	}
 
 	@Override

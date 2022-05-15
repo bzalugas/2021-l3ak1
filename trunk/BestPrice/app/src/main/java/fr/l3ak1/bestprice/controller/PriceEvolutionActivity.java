@@ -23,6 +23,8 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -37,13 +39,14 @@ public class PriceEvolutionActivity extends AppCompatActivity {
     private ArrayList<Prix> prix;
     private LineChart lineChart;
     private Button retour;
+    private String[] dates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_price_evolution);
 
-        produit = (Produit)getIntent().getSerializableExtra("produit");
+        produit = (Produit) getIntent().getSerializableExtra("produit");
         getPrices();
         /*retour.findViewById(R.id.button2);
         retour.setOnClickListener(new View.OnClickListener() {
@@ -54,40 +57,32 @@ public class PriceEvolutionActivity extends AppCompatActivity {
             }
         });*/
 
-        lineChart = ( LineChart) findViewById(R.id.line_chart);
+        lineChart = (LineChart) findViewById(R.id.line_chart);
 
-
+        // entrées du graph
         ArrayList<Entry> Prices = new ArrayList<>();
         int i = 0;
-        for (Prix p : prix)
-        {
-            Prices.add(new Entry(i, (float)p.getPrix()));
+        for (Prix p : prix) {
+            Prices.add(new Entry(i, (float) p.getPrix()));
             i++;
         }
 
-        // entrées du graph
-//        Prices.add(new Entry(1,3.81f));
-//        Prices.add(new Entry(2,3.83f));
-//        Prices.add(new Entry(3,3.85f));
-//        Prices.add(new Entry(4,3.84f));
 
         // valeurs des axes
         XAxis xAxis = lineChart.getXAxis();
         YAxis yAxisLeft = lineChart.getAxisLeft();
         YAxis yAxisRight = lineChart.getAxisRight();
 
-        xAxis.setValueFormatter(new MyAxisValueFormatter());
-        xAxis.setLabelCount(4, false);
+        xAxis.setValueFormatter(formatter2);
+        xAxis.setLabelCount(Prices.size(), true);
         xAxis.setTextColor(Color.BLACK);
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawLabels(true);
         xAxis.setSpaceMax(1f);
 
 
-
         yAxisRight.setEnabled(false);
         yAxisLeft.setEnabled(false);
-
 
 
         // description ( en bas à droite )
@@ -98,9 +93,9 @@ public class PriceEvolutionActivity extends AppCompatActivity {
 
         // couleurs et formes des lignes / textes dans le graph
 
-        LineDataSet lineDataSet = new LineDataSet(Prices,"Prix");
+        LineDataSet lineDataSet = new LineDataSet(Prices, "Prix");
         lineDataSet.setValueTextColor(Color.BLACK);
-        lineDataSet.setValueFormatter(new MyValueFormatter());
+        lineDataSet.setValueFormatter(formatter);
 
         lineDataSet.setLineWidth(5f);
         lineDataSet.setColor(Color.RED);
@@ -121,8 +116,6 @@ public class PriceEvolutionActivity extends AppCompatActivity {
         lineChart.setBorderWidth(2);
 
 
-
-
         lineChart.setDrawMarkers(false);
         lineChart.setDrawGridBackground(false);
         lineChart.animateX(3000, Easing.Linear);
@@ -130,32 +123,32 @@ public class PriceEvolutionActivity extends AppCompatActivity {
 
     }
 
-    private void getPrices()
-    {
+    private void getPrices() {
         try {
             CompletableFuture<ArrayList<Prix>> f = Prix.getAllPrix(produit.getCodeBarres());
             this.prix = f.get();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    private class MyValueFormatter extends ValueFormatter {
+
+    ValueFormatter formatter = new ValueFormatter() {
 
         @Override
-        public String getFormattedValue(float value){
-            return value+ "€";
+        public String getFormattedValue(float value) {
+            return value + "€";
         }
 
-    }
+    };
 
-
-    private class MyAxisValueFormatter extends ValueFormatter {
-
+    ValueFormatter formatter2 = new ValueFormatter() {
         @Override
         public String getFormattedValue(float value){
-            return "Date ici";
+
+            return "";
         }
-    }
+    };
+
 }

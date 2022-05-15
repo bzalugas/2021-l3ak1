@@ -130,6 +130,23 @@ class Prix
 		}
 	}
 
+	public function findAllPrixLoc()
+	{
+		$sql = "SELECT * FROM Prix WHERE produit_codebarres = :codebarres AND localisation_id = :localisation_id ORDER BY dateprix DESC";
+
+		try{
+            $statement = $this->db->prepare($sql);
+            $statement->execute([
+                'codebarres' => $this->codeBarres,
+                'localisation_id' => $this->localisation_id
+            ]);
+            $res = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $res;
+        } catch (Exception $e){
+            die ('Erreur : ' . $e->getMessage());
+        }
+	}
+
 	public function findPrixProduitLoc()
 	{
         $sql =

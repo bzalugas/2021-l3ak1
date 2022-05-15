@@ -11,9 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -39,7 +38,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
     private Produit produit;
     private Localisation user_localisation;
     private List<Localisation> localisationsPrix;
-    private ListView listViewComparison;
+    private ListView lvComparison;
     private double newPrice;
     private Button btnChangePrice;
     private Button btnSortPrice;
@@ -68,7 +67,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_price_comparison);
 
-        listViewComparison = findViewById(R.id.comparison_listview_enseigne);
+        lvComparison = findViewById(R.id.comparison_listview_enseigne);
         btnChangePrice = findViewById(R.id.comparison_button_change_price);
         btnSortDistance = findViewById(R.id.comparison_btn_tri_dist);
         btnSortPrice = findViewById(R.id.comparison_btn_tri_price);
@@ -112,6 +111,30 @@ public class PriceComparisonActivity extends AppCompatActivity {
             }
         });
 
+        lvComparison.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Intent evolutionIntent = new Intent(PriceComparisonActivity.this,
+                        PriceEvolutionActivity.class);
+                evolutionIntent.putExtra("produit", produit);
+                Localisation store = null;
+                Prix prix = (Prix)parent.getItemAtPosition(position);
+                try
+                {
+                    CompletableFuture<Localisation> f =
+                            Localisation.getLocalisationById(prix.getLocalisation_id());
+                    store = f.get();
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                evolutionIntent.putExtra("location", store);
+                startActivity(evolutionIntent);
+            }
+        });
+
     }
 
     @Override
@@ -143,6 +166,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
         try {
             Intent localisationIntent = new Intent(this, LocalisationActivity.class);
             localisationIntent.putExtra("localisation", user_localisation);
+            localisationIntent.putExtra("radius", 500);
             localisationIntent.putExtra("getStore", true);
             startForResult.launch(localisationIntent);
         } catch (Exception e) {
@@ -227,7 +251,7 @@ public class PriceComparisonActivity extends AppCompatActivity {
         {
             prixAdapter = new PriceComparisonAdapter(this, this.prixList,
                     this.localisationsPrix);
-            listViewComparison.setAdapter(prixAdapter);
+            lvComparison.setAdapter(prixAdapter);
         }
         else
             Toast.makeText(this, "Chargement en cours", Toast.LENGTH_SHORT).show();

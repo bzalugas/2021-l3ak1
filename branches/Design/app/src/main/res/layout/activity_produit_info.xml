@@ -23,11 +23,11 @@
     <ImageView
         android:id="@+id/scan_imageview"
         android:layout_marginTop="20dp"
-        android:layout_width="200dp"
+        android:layout_width="400dp"
         android:layout_height="200dp"
         android:adjustViewBounds="true"
         android:layout_gravity="center"
-        android:background="@drawable/img_corrupted_pic"/>
+        android:background="@drawable/border" />
 
     <TextView
         android:id="@+id/scan_textview_apartirde"

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".controller.PriceEvolutionActivity">
 
     <com.github.mikephil.charting.charts.LineChart
@@ -20,20 +21,12 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="130dp"
-        android:text="Evolution du prix du produit" />
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="160dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/img_icon" />
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="ÉVOLUTION DU PRIX DU PRODUIT" />
+
+
 
 </RelativeLayout>

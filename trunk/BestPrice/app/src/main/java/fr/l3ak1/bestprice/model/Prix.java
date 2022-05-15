@@ -136,6 +136,54 @@ public class Prix implements Serializable, Comparable<Prix>
 	}
 
 	/**
+	 * Get the list of all prices for one product in one store
+	 * @param codeBarres the barcode of product
+	 * @param localisation_id the location id of the store
+	 * @return a completable future containing the list of prices
+	 * @throws IOException
+	 */
+	public static CompletableFuture<List<Prix>> getAllPrixLoc(String codeBarres,
+															  long localisation_id) throws IOException
+	{
+		CompletableFuture<List<Prix>> f = new CompletableFuture<>();
+		HttpUrl.Builder queryBuilder;
+		Request request;
+		queryBuilder =
+				HttpUrl.get(Database.URL_API + "/api/prix/getAllByLoc.php").newBuilder();
+		queryBuilder.addQueryParameter("codeBarres", codeBarres);
+		queryBuilder.addQueryParameter("localisation_id", Long.toString(localisation_id));
+
+		request = new Request.Builder().url(queryBuilder.build()).build();
+
+		client.newCall(request).enqueue(new Callback()
+		{
+			@Override
+			public void onFailure(@NonNull Call call, @NonNull IOException e)
+			{
+				e.printStackTrace();
+			}
+
+			@Override
+			public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException
+			{
+				if (!response.isSuccessful())
+				{
+					f.complete(null);
+				}
+				else
+				{
+					Gson gson = new Gson();
+					Type type = new TypeToken<ArrayList<Prix>>(){}.getType();
+					ArrayList<Prix> prices = gson.fromJson(response.body().string(), type);
+					f.complete(prices);
+				}
+				response.body().close();
+			}
+		});
+		return f;
+	}
+
+	/**
 	 * Add a price to online API
 	 * @return a boolean representing the success or not of the request
 	 * @throws IOException

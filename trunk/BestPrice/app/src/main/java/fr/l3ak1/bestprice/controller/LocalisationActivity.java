@@ -47,6 +47,7 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	private List<Localisation> localisationList;
 	private LocalisationAdapter adapter;
 	private boolean getStore;
+	private int radius;
 
 
 	@Override
@@ -54,10 +55,9 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	{
 		super.onCreate(savedInstanceState);
 		getStore = getIntent().getBooleanExtra("getStore", false);
+		this.radius = getIntent().getIntExtra("radius", 500);
 		if (!getStore)
-		{
 			setContentView(R.layout.activity_localisation_loading);
-		}
 		else
 		{
 			setContentView(R.layout.activity_localisation);
@@ -165,7 +165,7 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	private void showStores()
 	{
 		try {
-			CompletableFuture<List<Localisation>> f = user_location.getNearbyLocations(500);
+			CompletableFuture<List<Localisation>> f = user_location.getNearbyLocations(this.radius);
 			this.localisationList = f.get();
 			if (this.localisationList != null && !this.localisationList.isEmpty())
 			{
@@ -184,9 +184,12 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	@Override
 	public void onLocationChanged(@NonNull Location location)
 	{
-		this.latitude = location.getLatitude();
-		this.longitude = location.getLongitude();
-		this.user_location = new Localisation(this.latitude, this.longitude);
+		if (user_location == null)
+		{
+			this.latitude = location.getLatitude();
+			this.longitude = location.getLongitude();
+			this.user_location = new Localisation(this.latitude, this.longitude);
+		}
 		if (getStore)
 			showStores();
 		else

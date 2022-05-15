@@ -108,7 +108,7 @@ public class Localisation implements Serializable, Comparable<Localisation>
 			public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException
 			{
 				if (!response.isSuccessful())
-					f.complete(new Localisation());
+					f.complete(null);
 				else
 				{
 					Gson gson = new Gson();

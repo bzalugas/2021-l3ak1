@@ -19,7 +19,7 @@ import java.util.List;
 import fr.l3ak1.bestprice.R;
 
 /**
- * Class to display the Product history in a listView
+ * Adapter to display the Product history in a listView
  */
 public class ProduitPrixAdapter extends BaseAdapter
 {
@@ -116,7 +116,6 @@ public class ProduitPrixAdapter extends BaseAdapter
 		Prix prix = null;
 		if (prices != null && (i < prices.size()))
 			prix = prices.get(i);
-//		Produit p = findProduit(prix);
 
 		if (p.getImagePath() != null && !p.getImagePath().isEmpty())
 			Picasso.get().load(p.getImagePath()).into(img);
@@ -127,28 +126,10 @@ public class ProduitPrixAdapter extends BaseAdapter
 			tvQuantite.setText(p.getQuantite());
 		if (prices != null && !prices.isEmpty())
 		{
-//			double prix = findPrice(p);
-//			prix = (double) (Math.round(prix.getPrix() * 100.0) / 100.0);
 			if (prix != null && prix.getPrix() != 0)
 				tvPrix.setText(Double.toString(prix.getPrix()));
 		}
 
 		return oneProduitLine;
-	}
-
-	private Produit findProduit(Prix prix)
-	{
-		for (Produit p : this.produitList)
-			if (p.getCodeBarres().equals(prix.getCodeBarres()))
-				return p;
-		return null;
-	}
-
-	private double findPrice(Produit p)
-	{
-		for (Prix prix : this.prices)
-			if (prix.getCodeBarres().equals(p.getCodeBarres()))
-				return prix.getPrix();
-		return 0;
 	}
 }

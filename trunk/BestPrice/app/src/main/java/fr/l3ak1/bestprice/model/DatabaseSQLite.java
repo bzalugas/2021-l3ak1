@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class to manage local database operations
+ * Class to handle local database operations
  */
 public class DatabaseSQLite extends SQLiteOpenHelper
 {
@@ -190,6 +190,10 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		return prix;
 	}
 
+	/**
+	 * Delete all prices in local database
+	 * @return the success of the operation (boolean)
+	 */
 	public boolean deleteAllPrix()
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -206,17 +210,14 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		return false;
 	}
 
+	/**
+	 * Get last entered price for each product
+	 * @param produits
+	 * @return
+	 */
 	public List<Prix> getLastPrices(List<Produit> produits)
 	{
 		List<Prix> prices = new ArrayList<>();
-//		String query =
-//				"SELECT * FROM " + TABLE_PRIX +
-//						" WHERE " + COL_PRIX_CODE_BARRES + " = ?" +
-//						" ORDER BY " + COL_DATE + " DESC" +
-//						" LIMIT 1";
-		/* tri par num d'id (donc ordre d'ajout dans la bdd). Mieux de changer la date en
-		datetime...
-		 */
 		String query =
 				"SELECT * FROM " + TABLE_PRIX +
 						" WHERE " + COL_PRIX_CODE_BARRES + " = ?" +
@@ -243,14 +244,13 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		return prices;
 	}
 
-//	public List<Prix> getAllPrixProduit(String codeBarres)
-//	{
-//		List<Prix> prix = new ArrayList<>();
-//		String query = "SELECT ";
-//	}
-
 	/*Produit related methods*/
 
+	/**
+	 * Save a product in local database
+	 * @param produit the product to save
+	 * @return a boolean representing success or not of the operation
+	 */
 	public boolean addProduit(Produit produit)
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -269,6 +269,10 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		return true;
 	}
 
+	/**
+	 * Get all products in local database
+	 * @return a List containing all products in local database
+	 */
 	public List<Produit> getAllProduits()
 	{
 		List<Produit> produits = new ArrayList<>();
@@ -294,6 +298,11 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		return produits;
 	}
 
+	/**
+	 *  Get a product by its barcode
+	 * @param codeBarres the barcode of the product to find
+	 * @return the product if found
+	 */
 	public Produit getProduitByCodeBarres(String codeBarres)
 	{
 		Produit produit = new Produit();
@@ -315,6 +324,10 @@ public class DatabaseSQLite extends SQLiteOpenHelper
 		return produit;
 	}
 
+	/**
+	 * Delete all products in local database
+	 * @return success or not of the operation
+	 */
 	public boolean deleteAllProduit()
 	{
 		SQLiteDatabase db = this.getWritableDatabase();

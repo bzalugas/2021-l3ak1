@@ -40,6 +40,9 @@ public class Prix implements Serializable, Comparable<Prix>
 	private transient String localisation_nom;
 	private static final transient OkHttpClient client = new OkHttpClient();
 
+	/**
+	 * Constructor
+	 */
 	public Prix()
 	{
 		id = 0;
@@ -49,6 +52,14 @@ public class Prix implements Serializable, Comparable<Prix>
 		localisation_nom = "";
 	}
 
+	/**
+	 * Constructor
+	 * @param id the id
+	 * @param codeBarres the barcode
+	 * @param prix the price
+	 * @param date the date
+	 * @param localisation_id id of the location
+	 */
 	public Prix(long id, String codeBarres, double prix, String date, long localisation_id)
 	{
 		this.id = id;
@@ -58,6 +69,13 @@ public class Prix implements Serializable, Comparable<Prix>
 		this.localisation_id = localisation_id;
 	}
 
+	/**
+	 * Constructor
+	 * @param codeBarres the barcode
+	 * @param prix the price
+	 * @param date the date
+	 * @param localisation_id id of the location
+	 */
 	public Prix(String codeBarres, double prix, String date, long localisation_id)
 	{
 		this.codeBarres = codeBarres;
@@ -66,6 +84,14 @@ public class Prix implements Serializable, Comparable<Prix>
 		this.localisation_id = localisation_id;
 	}
 
+	/**
+	 * Constructor
+	 * @param codeBarres the barcode
+	 * @param prix the price
+	 * @param date the date
+	 * @param localisation_id id of the location
+	 * @param localisation_nom Name of the location of the price
+	 */
 	public Prix(String codeBarres, double prix, String date, long localisation_id, String localisation_nom)
 	{
 		this.codeBarres = codeBarres;
@@ -75,6 +101,15 @@ public class Prix implements Serializable, Comparable<Prix>
 		this.localisation_nom = localisation_nom;
 	}
 
+	/**
+	 * Constructor
+	 * @param id the id
+	 * @param codeBarres the barcode
+	 * @param prix the price
+	 * @param date the date
+	 * @param localisation_id id of the location
+	 * @param localisation_nom Name of the location of the price
+	 */
 	public Prix(long id, String codeBarres, double prix, String date, long localisation_id,
 				String localisation_nom)
 	{
@@ -226,6 +261,15 @@ public class Prix implements Serializable, Comparable<Prix>
 		return f;
 	}
 
+	/**
+	 * Get prices of a product nearby a location
+	 * @param codeBarres barcode of the product
+	 * @param latitude latitude of current location
+	 * @param longitude longitude of current location
+	 * @param radius max radius to find prices
+	 * @return a List of prices
+	 * @throws IOException
+	 */
 	public static CompletableFuture<List<Prix>> getNearbyPrices(String codeBarres, double latitude,
 																double longitude, int radius) throws IOException
 	{
@@ -271,6 +315,12 @@ public class Prix implements Serializable, Comparable<Prix>
 		return f;
 	}
 
+	/**
+	 * Get cheapest registered price for a product
+	 * @param codeBarres barcode of the product
+	 * @return the Price
+	 * @throws IOException
+	 */
 	public static CompletableFuture<Prix> getCheapest(String codeBarres) throws IOException
 	{
 		Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
@@ -325,58 +375,106 @@ public class Prix implements Serializable, Comparable<Prix>
 		return (int) (this.getPrix()*100.0 - other.getPrix()*100.0);
 	}
 
+	/**
+	 * Get id
+	 * @return the id
+	 */
 	public long getId()
 	{
 		return id;
 	}
 
+	/**
+	 * set id
+	 * @param id the id
+	 */
 	public void setId(long id)
 	{
 		this.id = id;
 	}
 
+	/**
+	 * get barcode
+	 * @return the barcode
+	 */
 	public String getCodeBarres()
 	{
 		return codeBarres;
 	}
 
+	/**
+	 * set barcode
+	 * @param codeBarres the barcode
+	 */
 	public void setCodeBarres(String codeBarres)
 	{
 		this.codeBarres = codeBarres;
 	}
 
+	/**
+	 * get price
+	 * @return the price
+	 */
 	public double getPrix()
 	{
 		return prix;
 	}
 
-	public String getLocalisationNom() { return localisation_nom; }
-
+	/**
+	 * set price
+	 * @param prix price
+	 */
 	public void setPrix(double prix)
 	{
 		this.prix = (double) (Math.round(prix * 100.0) / 100.0);
 	}
 
+	/**
+	 * get name of location
+	 * @return name of location
+	 */
+	public String getLocalisationNom() { return localisation_nom; }
+
+	/**
+	 * get date
+	 * @return the date
+	 */
 	public String getDate()
 	{
 		return date;
 	}
 
+	/**
+	 * set date
+	 * @param date the date
+	 */
 	public void setDate(String date)
 	{
 		this.date = date;
 	}
 
+	/**
+	 * get id of location
+	 * @return the id of location
+	 */
 	public long getLocalisation_id()
 	{
 		return localisation_id;
 	}
 
+	/**
+	 * set id of location
+	 * @param localisation_id id of location
+	 */
 	public void setLocalisation_id(long localisation_id)
 	{
 		this.localisation_id = localisation_id;
 	}
 
+	/**
+	 * set name of location
+	 * @param localisation_nom the name of the location
+	 */
 	public void setLocalisation_nom(String localisation_nom) { this.localisation_nom =
 			localisation_nom; }
 

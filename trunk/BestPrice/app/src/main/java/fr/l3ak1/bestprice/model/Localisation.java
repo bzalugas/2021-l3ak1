@@ -7,12 +7,9 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -39,6 +36,9 @@ public class Localisation implements Serializable, Comparable<Localisation>
 	private double distance;
 	private static final transient OkHttpClient client = new OkHttpClient();
 
+	/**
+	 * Empty constructor
+	 */
 	public Localisation()
 	{
 		id = 0;
@@ -48,12 +48,25 @@ public class Localisation implements Serializable, Comparable<Localisation>
 		distance = 0;
 	}
 
+	/**
+	 * Constructor with latitude longitude
+	 * @param latitude  the latitude
+	 * @param longitude the longitude
+	 */
 	public Localisation(double latitude, double longitude)
 	{
 		this.latitude = (double) (Math.round(latitude*1000000.0)/1000000.0);
 		this.longitude = (double) (Math.round(longitude*1000000.0)/1000000.0);
 	}
 
+	/**
+	 * Constructor
+	 * @param id the id
+	 * @param latitude the latitude
+	 * @param longitude the longitude
+	 * @param nom the name
+	 * @param distance the distance
+	 */
 	public Localisation(long id, double latitude, double longitude, String nom, double distance)
 	{
 		this.id = id;
@@ -64,6 +77,13 @@ public class Localisation implements Serializable, Comparable<Localisation>
 		Log.d("LogLocalisation", "dans constructeur");
 	}
 
+	/**
+	 * Constructor
+	 * @param id the id
+	 * @param latitude the latitude
+	 * @param longitude the longitude
+	 * @param nom the name
+	 */
 	public Localisation(long id, double latitude, double longitude, String nom)
 	{
 		this.id = id;
@@ -72,6 +92,12 @@ public class Localisation implements Serializable, Comparable<Localisation>
 		this.nom = nom;
 	}
 
+	/**
+	 * Constructor
+	 * @param latitude the latitude
+	 * @param longitude the longitude
+	 * @param nom the name
+	 */
 	public Localisation(double latitude, double longitude, String nom)
 	{
 		this.latitude = (double) (Math.round(latitude*1000000.0)/1000000.0);
@@ -120,6 +146,10 @@ public class Localisation implements Serializable, Comparable<Localisation>
 		return f;
 	}
 
+	/**
+	 * Insert the location in online database
+	 * @return the success or not of the operation
+	 */
 	public CompletableFuture<Boolean> insert()
 	{
 		CompletableFuture<Boolean> f = new CompletableFuture<>();
@@ -157,6 +187,12 @@ public class Localisation implements Serializable, Comparable<Localisation>
 		return f;
 	}
 
+	/**
+	 * Get nearby locations regarding latitude and longitude
+	 * @param radius the max radius to find locations
+	 * @return the List of the locations found
+	 * @throws IOException
+	 */
 	public CompletableFuture<List<Localisation>> getNearbyLocations(int radius) throws IOException
 	{
 		CompletableFuture<List<Localisation>> f = new CompletableFuture<>();
@@ -192,41 +228,6 @@ public class Localisation implements Serializable, Comparable<Localisation>
 					Type type = new TypeToken<ArrayList<Localisation>>(){}.getType();
 					ArrayList<Localisation> loc = gson.fromJson(response.body().string(), type);
 					f.complete(loc);
-				}
-				response.body().close();
-			}
-		});
-		return f;
-	}
-
-	public static CompletableFuture<Localisation> getLocalisationByName(String name) throws IOException
-	{
-		CompletableFuture<Localisation> f = new CompletableFuture<>();
-		HttpUrl.Builder queryBuilder;
-		Request request;
-
-		queryBuilder = HttpUrl.get(Database.URL_API + "/api/localisation/get.php").newBuilder();
-		queryBuilder.addQueryParameter("name", name);
-
-		request = new Request.Builder().url(queryBuilder.build()).build();
-
-		client.newCall(request).enqueue(new Callback()
-		{
-			@Override
-			public void onFailure(@NonNull Call call, @NonNull IOException e)
-			{
-				e.printStackTrace();
-			}
-
-			@Override
-			public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException
-			{
-				if (!response.isSuccessful())
-					f.complete(new Localisation());
-				else
-				{
-					Gson gson = new Gson();
-					f.complete(gson.fromJson(response.body().string(), Localisation.class));
 				}
 				response.body().close();
 			}
@@ -306,11 +307,19 @@ public class Localisation implements Serializable, Comparable<Localisation>
 		this.nom = nom;
 	}
 
+	/**
+	 * Get the distance
+	 * @return the distance
+	 */
 	public double getDistance()
 	{
 		return distance;
 	}
 
+	/**
+	 * Set distance
+	 * @param distance the distance to set
+	 */
 	public void setDistance(double distance)
 	{
 		this.distance = (double) (Math.round(distance*1.0)/1.0);

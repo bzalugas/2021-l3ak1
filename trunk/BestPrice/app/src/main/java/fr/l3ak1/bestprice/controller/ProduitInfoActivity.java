@@ -23,6 +23,9 @@ import fr.l3ak1.bestprice.model.DatabaseSQLite;
 import fr.l3ak1.bestprice.model.Prix;
 import fr.l3ak1.bestprice.model.Produit;
 
+/**
+ * Activity to show product information
+ */
 public class ProduitInfoActivity extends AppCompatActivity
 {
 	private Produit produit;
@@ -113,7 +116,9 @@ public class ProduitInfoActivity extends AppCompatActivity
 				}
 			});
 
-
+	/**
+	 * Save the product in local history
+	 */
 	private void saveLocalProduit()
 	{
 		if (!this.produit.minComplete())
@@ -127,6 +132,9 @@ public class ProduitInfoActivity extends AppCompatActivity
 			Toast.makeText(this, "Error trying to add produit", Toast.LENGTH_SHORT).show();
 	}
 
+	/**
+	 * Launch the scanner
+	 */
 	private void launchScan()
 	{
 		ScanOptions options = new ScanOptions();
@@ -138,6 +146,9 @@ public class ProduitInfoActivity extends AppCompatActivity
 		scanLauncher.launch(options);
 	}
 
+	/**
+	 * Display reiceived information
+	 */
 	private void displayInfosProduit()
 	{
 		if (!produit.minComplete())
@@ -158,6 +169,9 @@ public class ProduitInfoActivity extends AppCompatActivity
 		}
 	}
 
+	/**
+	 * Load an image in the imageView
+	 */
 	private void loadProduitImage()
 	{
 		Picasso.get().load(produit.getImagePath()).into(imageView);

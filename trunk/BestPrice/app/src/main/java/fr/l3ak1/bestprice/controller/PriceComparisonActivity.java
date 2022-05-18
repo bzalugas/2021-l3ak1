@@ -32,6 +32,9 @@ import fr.l3ak1.bestprice.model.PriceComparisonAdapter;
 import fr.l3ak1.bestprice.model.Prix;
 import fr.l3ak1.bestprice.model.Produit;
 
+/**
+ * Activity to compare prices
+ */
 public class PriceComparisonActivity extends AppCompatActivity {
 
     private List<Prix> prixList;
@@ -150,6 +153,9 @@ public class PriceComparisonActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Launch the LocalisationActivity to get latitude & longitude of the user
+     */
     private void getLocation()
     {
         try {
@@ -161,6 +167,9 @@ public class PriceComparisonActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Launch LocalisationActivity to get the store the user is in
+     */
     private void getStore()
     {
         try {
@@ -174,6 +183,9 @@ public class PriceComparisonActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Add new price to online DB and local DB
+     */
     private void createPrix()
     {
         boolean success;
@@ -216,6 +228,9 @@ public class PriceComparisonActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Ask the user for the new price to add and create it
+     */
     private void askNewPrice()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -245,6 +260,9 @@ public class PriceComparisonActivity extends AppCompatActivity {
         builder.show();
     }
 
+    /**
+     * Display prices to the ListView
+     */
     private void displayPrices()
     {
         if (this.prixList != null && this.localisationsPrix != null)
@@ -257,6 +275,9 @@ public class PriceComparisonActivity extends AppCompatActivity {
             Toast.makeText(this, "Chargement en cours", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Get in DB all prices around the location
+     */
     private void getPrices()
     {
         try{
@@ -272,6 +293,9 @@ public class PriceComparisonActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sort prices by ascending distance
+     */
     private void sortByDistance()
     {
         Collections.sort(this.localisationsPrix);
@@ -292,6 +316,9 @@ public class PriceComparisonActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sort prices by price
+     */
     private void sortByPrice()
     {
         Collections.sort(this.prixList);
@@ -312,6 +339,11 @@ public class PriceComparisonActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get index of the price corresponding to a location in the ArrayList
+     * @param loc the corresponding location
+     * @return the index of the price in the ArrayList or -1 if price is not found
+     */
     private int getPrixIndex(Localisation loc)
     {
         for (int i = 0; i < prixList.size(); i++)
@@ -320,6 +352,11 @@ public class PriceComparisonActivity extends AppCompatActivity {
         return -1;
     }
 
+    /**
+     * Get index of the location corresponding to a price in the ArrayList
+     * @param p the corresponding price
+     * @return the index of the location in the ArrayList or -1 if location is not found
+     */
     private int getLocalisationIndex(Prix p)
     {
         for (int i = 0; i < localisationsPrix.size(); i++)

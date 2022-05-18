@@ -32,6 +32,9 @@ import fr.l3ak1.bestprice.R;
 import fr.l3ak1.bestprice.model.Localisation;
 import fr.l3ak1.bestprice.model.LocalisationAdapter;
 
+/**
+ * Handle the location and store of the user
+ */
 public class LocalisationActivity extends AppCompatActivity implements LocationListener
 {
 	private double latitude, longitude;
@@ -40,7 +43,6 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	private final static String[] PERMISSIONS = {Manifest.permission.ACCESS_COARSE_LOCATION,
 			Manifest.permission.ACCESS_FINE_LOCATION};
 	private final static int PERMISSIONS_ALL = 1;
-	private TextView tvMagasins;
 	private ListView lvMagasins;
 	private Button btnAdd;
 	private Localisation user_location;
@@ -62,7 +64,6 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		{
 			setContentView(R.layout.activity_localisation);
 
-			tvMagasins = findViewById(R.id.loc_text_magasin);
 			lvMagasins = findViewById(R.id.loc_list_view);
 			btnAdd = findViewById(R.id.loc_button_add);
 
@@ -100,18 +101,11 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 	protected void onResume()
 	{
 		super.onResume();
-//		if (getStore && this.localisationList != null && !this.localisationList.isEmpty())
-//			showStores();
-//		else if (getStore && this.latitude != 0 && this.longitude != 0)
-//		{
-//			this.user_location = new Localisation(this.latitude, this.longitude);
-//			showStores();
-//		}
-//		else
-//			Log.d("LogLocalisationActivity", "onResume: !(localisationList != null && " +
-//					"!localisationList.isEmpty()");
 	}
 
+	/**
+	 * Ask the user for the store name
+	 */
 	private void askStore()
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(LocalisationActivity.this);
@@ -139,6 +133,10 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		builder.show();
 	}
 
+	/**
+	 * Add the store name to the location
+	 * @param nom name of the store
+	 */
 	private void createLocation(String nom)
 	{
 		this.user_location.setNom(nom);
@@ -154,6 +152,9 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		}
 	}
 
+	/**
+	 * Add the location to the Intent and stop the activity
+	 */
 	private void sendLocationAndFinish()
 	{
 		Intent intent = new Intent();
@@ -162,6 +163,9 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		finish();
 	}
 
+	/**
+	 * Get the nearby stores and display it to the ListView
+	 */
 	private void showStores()
 	{
 		try {
@@ -212,6 +216,9 @@ public class LocalisationActivity extends AppCompatActivity implements LocationL
 		}
 	}
 
+	/**
+	 * Ask the location permission
+	 */
 	public void requestLocation(){
 		if(locationManager == null){
 			locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);

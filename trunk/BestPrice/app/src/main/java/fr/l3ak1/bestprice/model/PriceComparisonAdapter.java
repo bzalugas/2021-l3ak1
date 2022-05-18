@@ -13,6 +13,9 @@ import java.util.List;
 
 import fr.l3ak1.bestprice.R;
 
+/**
+ * Adapter to display prices and location in PriceComparisonActivity
+ */
 public class PriceComparisonAdapter extends BaseAdapter
 {
 	private Activity activity;
@@ -69,6 +72,11 @@ public class PriceComparisonAdapter extends BaseAdapter
 		return comparisonOneLine;
 	}
 
+	/**
+	 * Find the location corresponding to a price
+	 * @param prix the price
+	 * @return the location if found null otherwise
+	 */
 	private Localisation findLocalisation(Prix prix)
 	{
 		for (Localisation l : localisationList)

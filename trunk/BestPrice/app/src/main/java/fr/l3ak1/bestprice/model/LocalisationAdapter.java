@@ -57,7 +57,6 @@ public class LocalisationAdapter extends BaseAdapter
 
 		if (l.getNom() != null && !l.getNom().isEmpty())
 			tvNom.setText(l.getNom());
-//		if (l.getDistance() != 0)
 		double distKm = l.getDistance() / 1000.0;
 		distKm = (double) (Math.round(distKm*1000.0)/1000.0);
 		tvDist.setText(Double.toString(distKm));

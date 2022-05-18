@@ -13,6 +13,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Online database information
+ */
 public class Database
 {
 	public static final String URL_API = "https://bestprice-2021-l3ak1-api.herokuapp.com";

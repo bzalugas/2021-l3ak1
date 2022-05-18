@@ -29,6 +29,9 @@ public class Produit implements Serializable
 	@SerializedName("imagepath") private String imagePath;
 	private static final OkHttpClient client = new OkHttpClient();
 
+	/**
+	 * Empty constructor
+	 */
 	public Produit()
 	{
 		this.codeBarres = null;
@@ -38,6 +41,14 @@ public class Produit implements Serializable
 		this.imagePath = null;
 	}
 
+	/**
+	 * Constructor
+	 * @param codeBarres barcode
+	 * @param marque brand
+	 * @param nom name
+	 * @param quantite quantity
+	 * @param imagePath image path
+	 */
 	public Produit(String codeBarres, String marque, String nom, String quantite, String imagePath)
 	{
 		this.codeBarres = codeBarres;

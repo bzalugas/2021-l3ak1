@@ -26,6 +26,9 @@ import fr.l3ak1.bestprice.model.Prix;
 import fr.l3ak1.bestprice.model.Produit;
 import fr.l3ak1.bestprice.model.ProduitPrixAdapter;
 
+/**
+ * Main page of the application
+ */
 public class MainActivity extends AppCompatActivity {
 
 	private Button buttonScan;
@@ -93,19 +96,17 @@ public class MainActivity extends AppCompatActivity {
 		});
 	}
 
+	@Override
 	protected void onResume()
 	{
 		super.onResume();
 		DatabaseSQLite db = new DatabaseSQLite(MainActivity.this);
 		showProduits(db);
-//		if (prices != null && !prices.isEmpty())
-//		{
-////			Collections.sort(prices);
-//			Produit.sortProduitsListByPrices(produits, prices);
-//			adapter.notifyDataSetChanged();
-//		}
 	}
 
+	/**
+	 * Clear local database
+	 */
 	private void clearCache()
 	{
 		DatabaseSQLite db = new DatabaseSQLite(MainActivity.this);
@@ -117,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
 		this.onResume();
 	}
 
+	/**
+	 * Show scanned products and price in the ListView
+	 * @param db the SQLite database class
+	 */
 	private void showProduits(DatabaseSQLite db)
 	{
 		produits = db.getAllProduits();

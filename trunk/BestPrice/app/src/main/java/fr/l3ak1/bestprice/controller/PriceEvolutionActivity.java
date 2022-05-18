@@ -33,6 +33,9 @@ import fr.l3ak1.bestprice.model.Localisation;
 import fr.l3ak1.bestprice.model.Prix;
 import fr.l3ak1.bestprice.model.Produit;
 
+/**
+ * Activity to see price evolution in a store
+ */
 public class PriceEvolutionActivity extends AppCompatActivity {
 
     private Produit produit;
@@ -73,6 +76,9 @@ public class PriceEvolutionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Configure the chart for display
+     */
     private void setChartParams()
     {
         // valeurs des axes
@@ -163,6 +169,9 @@ public class PriceEvolutionActivity extends AppCompatActivity {
                         }
                     });
 
+    /**
+     * Get the location of the user
+     */
     private void getLocation()
     {
         try {
@@ -174,6 +183,9 @@ public class PriceEvolutionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get the store of the user
+     */
     private void getStore()
     {
         try {
@@ -187,6 +199,9 @@ public class PriceEvolutionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get all prices of the product in the store
+     */
     private void getPrices() {
         try {
             CompletableFuture<List<Prix>> f = Prix.getAllPrixLoc(produit.getCodeBarres(),

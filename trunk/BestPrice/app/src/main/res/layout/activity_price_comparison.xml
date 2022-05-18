@@ -29,6 +29,7 @@
         android:layout_marginTop="-600dp"
         android:background="@drawable/border"
         android:divider="@color/white"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
